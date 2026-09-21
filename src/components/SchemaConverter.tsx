@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import { convertOpenAIToAnthropic, convertAnthropicToOpenAI, safeFormatJson } from '../utils/schemaConverter';
 import { PREBUILT_TOOLS } from '../utils/sampleData';
+import type { ToolDefinition } from '../utils/openapiParser';
 import { ArrowRightLeft, AlertTriangle, Copy, Check, FileCode, RefreshCw, Sparkles } from 'lucide-react';
 
-export const SchemaConverter: React.FC = () => {
+interface SchemaConverterProps {
+  customTools?: ToolDefinition[];
+}
+
+export const SchemaConverter: React.FC<SchemaConverterProps> = ({ customTools = [] }) => {
+  const allAvailableTools: ToolDefinition[] = [...(PREBUILT_TOOLS as any[]), ...customTools];
+
   const [direction, setDirection] = useState<'openai-to-anthropic' | 'anthropic-to-openai'>('openai-to-anthropic');
   const [inputJson, setInputJson] = useState<string>(
-    JSON.stringify(PREBUILT_TOOLS[0].openaiSchema, null, 2)
+    JSON.stringify(allAvailableTools[0].openaiSchema, null, 2)
   );
   const [outputJson, setOutputJson] = useState<string>('');
   const [warnings, setWarnings] = useState<string[]>([]);
@@ -46,8 +53,8 @@ export const SchemaConverter: React.FC = () => {
       setOutputJson('');
     } else {
       const sample = newDir === 'openai-to-anthropic'
-        ? PREBUILT_TOOLS[0].openaiSchema
-        : PREBUILT_TOOLS[0].anthropicSchema;
+        ? allAvailableTools[0].openaiSchema
+        : allAvailableTools[0].anthropicSchema;
       setInputJson(JSON.stringify(sample, null, 2));
       setOutputJson('');
     }
@@ -60,7 +67,7 @@ export const SchemaConverter: React.FC = () => {
   };
 
   const loadSample = (toolId: string) => {
-    const matched = PREBUILT_TOOLS.find(t => t.id === toolId);
+    const matched = allAvailableTools.find(t => t.id === toolId);
     if (matched) {
       const targetObj = direction === 'openai-to-anthropic'
         ? matched.openaiSchema
@@ -95,11 +102,11 @@ export const SchemaConverter: React.FC = () => {
           {/* Sample Loader */}
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Samples:</span>
-            {PREBUILT_TOOLS.map((t) => (
+            {allAvailableTools.map((t) => (
               <button
                 key={t.id}
                 onClick={() => loadSample(t.id)}
-                className="text-xs px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-indigo-500/50 hover:text-indigo-300 transition-all font-mono"
+                className="text-xs px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-indigo-500/50 hover:text-indigo-300 transition-all font-mono cursor-pointer"
               >
                 {t.name}
               </button>
@@ -118,7 +125,7 @@ export const SchemaConverter: React.FC = () => {
 
             <button
               onClick={handleSwapDirection}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 transition-all cursor-pointer"
             >
               <ArrowRightLeft className="w-3.5 h-3.5" />
               <span>Swap Direction</span>
@@ -154,7 +161,7 @@ export const SchemaConverter: React.FC = () => {
 
             <button
               onClick={() => setInputJson(safeFormatJson(inputJson))}
-              className="text-xs text-slate-400 hover:text-slate-200 px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700 font-mono transition-all"
+              className="text-xs text-slate-400 hover:text-slate-200 px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700 font-mono transition-all cursor-pointer"
             >
               Prettify JSON
             </button>
@@ -180,7 +187,7 @@ export const SchemaConverter: React.FC = () => {
             {outputJson && (
               <button
                 onClick={handleCopyOutput}
-                className="text-xs flex items-center gap-1.5 text-emerald-300 hover:text-emerald-200 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 font-semibold transition-all"
+                className="text-xs flex items-center gap-1.5 text-emerald-300 hover:text-emerald-200 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 font-semibold transition-all cursor-pointer"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? 'Copied!' : 'Copy Converted Schema'}</span>

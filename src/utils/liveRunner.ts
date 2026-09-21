@@ -1,4 +1,4 @@
-import type { PrebuiltTool } from './sampleData';
+import type { ToolDefinition } from './openapiParser';
 import type { ProviderSetting } from './apiKeys';
 
 export interface LiveToolCall {
@@ -40,7 +40,7 @@ export async function executeLiveToolCalling(
   providerKey: 'openai' | 'anthropic' | 'gemini' | 'deepseek' | 'ollama' | 'localOpenAI',
   config: ProviderSetting,
   userQuery: string,
-  selectedTools: PrebuiltTool[]
+  selectedTools: ToolDefinition[]
 ): Promise<LiveRunResult> {
   const startTime = performance.now();
   const steps: LiveRunStep[] = [];
@@ -77,7 +77,7 @@ async function executeOpenAICompatible(
   providerKey: string,
   config: ProviderSetting,
   userQuery: string,
-  selectedTools: PrebuiltTool[],
+  selectedTools: ToolDefinition[],
   startTime: number
 ): Promise<LiveRunResult> {
   const steps: LiveRunStep[] = [];
@@ -250,7 +250,7 @@ async function executeOpenAICompatible(
 async function executeAnthropic(
   config: ProviderSetting,
   userQuery: string,
-  selectedTools: PrebuiltTool[],
+  selectedTools: ToolDefinition[],
   startTime: number
 ): Promise<LiveRunResult> {
   const steps: LiveRunStep[] = [];
@@ -416,7 +416,7 @@ async function executeAnthropic(
 async function executeGemini(
   config: ProviderSetting,
   userQuery: string,
-  selectedTools: PrebuiltTool[],
+  selectedTools: ToolDefinition[],
   startTime: number
 ): Promise<LiveRunResult> {
   const steps: LiveRunStep[] = [];

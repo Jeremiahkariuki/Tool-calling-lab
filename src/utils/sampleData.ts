@@ -4,7 +4,11 @@ export interface PrebuiltTool {
   id: string;
   name: string;
   description: string;
-  category: 'weather' | 'finance' | 'code' | 'search';
+  category: string;
+  isCustom?: boolean;
+  source?: string;
+  webhookUrl?: string;
+  httpMethod?: string;
   openaiSchema: OpenAITool;
   anthropicSchema: AnthropicTool;
   mockHandler: (args: any) => any;

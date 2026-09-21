@@ -1,4 +1,4 @@
-import type { PrebuiltTool } from './sampleData';
+import type { ToolDefinition } from './openapiParser';
 
 export interface SimulationStep {
   stepIndex: number;
@@ -20,7 +20,7 @@ export interface SimulationResult {
  */
 export function runOpenAISimulation(
   userQuery: string,
-  selectedTools: PrebuiltTool[]
+  selectedTools: ToolDefinition[]
 ): SimulationResult {
   const steps: SimulationStep[] = [];
   const now = () => new Date().toLocaleTimeString();
@@ -188,7 +188,7 @@ export function runOpenAISimulation(
  */
 export function runAnthropicSimulation(
   userQuery: string,
-  selectedTools: PrebuiltTool[]
+  selectedTools: ToolDefinition[]
 ): SimulationResult {
   const steps: SimulationStep[] = [];
   const now = () => new Date().toLocaleTimeString();

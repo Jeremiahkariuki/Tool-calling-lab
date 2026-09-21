@@ -4,15 +4,19 @@ import { executeLiveToolCalling } from '../utils/liveRunner';
 import type { LiveRunResult } from '../utils/liveRunner';
 import { runOpenAISimulation, runAnthropicSimulation } from '../utils/mockRunner';
 import type { AllProviderConfigs } from '../utils/apiKeys';
+import type { ToolDefinition } from '../utils/openapiParser';
 import { Play, Sparkles, Code, CheckCircle, AlertTriangle, Clock, Zap, Cpu, Eye } from 'lucide-react';
 
 interface SideBySideCompareProps {
   configs: AllProviderConfigs;
+  customTools?: ToolDefinition[];
 }
 
-export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs }) => {
+export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs, customTools = [] }) => {
+  const allAvailableTools: ToolDefinition[] = [...(PREBUILT_TOOLS as any[]), ...customTools];
+
   const [userQuery, setUserQuery] = useState('What is the current weather in Tokyo in Celsius and AAPL stock price?');
-  const [enabledTools, setEnabledTools] = useState<string[]>(['get_weather', 'get_stock_price', 'search_knowledge_base']);
+  const [enabledTools, setEnabledTools] = useState<string[]>(allAvailableTools.map(t => t.id));
   const [selectedProviders, setSelectedProviders] = useState<string[]>(['openai', 'anthropic', 'gemini']);
   const [executionMode, setExecutionMode] = useState<'simulated' | 'live'>('simulated');
   const [isRunning, setIsRunning] = useState(false);
@@ -43,7 +47,7 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
     setIsRunning(true);
     setResults({});
 
-    const activeTools = PREBUILT_TOOLS.filter(t => enabledTools.includes(t.id));
+    const activeTools = allAvailableTools.filter(t => enabledTools.includes(t.id));
     const newResults: Record<string, LiveRunResult> = {};
 
     if (executionMode === 'live') {
@@ -247,10 +251,10 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
           {/* Registered Active Tools */}
           <div className="lg:col-span-3 space-y-4">
             <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
-              Active Tools ({enabledTools.length})
+              Active Tools ({enabledTools.length}/{allAvailableTools.length})
             </label>
             <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1">
-              {PREBUILT_TOOLS.map((tool) => {
+              {allAvailableTools.map((tool) => {
                 const isChecked = enabledTools.includes(tool.id);
                 return (
                   <div

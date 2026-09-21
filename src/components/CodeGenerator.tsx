@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { PREBUILT_TOOLS } from '../utils/sampleData';
+import type { ToolDefinition } from '../utils/openapiParser';
 import { Copy, Check, Terminal, Sparkles } from 'lucide-react';
 
-export const CodeGenerator: React.FC = () => {
+interface CodeGeneratorProps {
+  customTools?: ToolDefinition[];
+}
+
+export const CodeGenerator: React.FC<CodeGeneratorProps> = ({ customTools = [] }) => {
+  const allAvailableTools: ToolDefinition[] = [...(PREBUILT_TOOLS as any[]), ...customTools];
+
   const [provider, setProvider] = useState<'openai' | 'anthropic'>('openai');
-  const [selectedToolId, setSelectedToolId] = useState<string>('get_weather');
+  const [selectedToolId, setSelectedToolId] = useState<string>(allAvailableTools[0].id);
   const [copied, setCopied] = useState(false);
 
-  const activeTool = PREBUILT_TOOLS.find(t => t.id === selectedToolId) || PREBUILT_TOOLS[0];
+  const activeTool = allAvailableTools.find(t => t.id === selectedToolId) || allAvailableTools[0];
 
   const generatePythonOpenAI = () => {
     return `import json
@@ -23,10 +30,10 @@ tools = [
 # 2. Local Python Function Implementation
 def ${activeTool.name}(**kwargs):
     print(f"Executing ${activeTool.name} locally with args:", kwargs)
-    return ${JSON.stringify(activeTool.mockHandler({ location: 'Tokyo' }), null, 4)}
+    return ${JSON.stringify(activeTool.mockHandler ? activeTool.mockHandler({ location: 'Tokyo' }) : { status: 200 }, null, 4)}
 
 # 3. Initial Chat Completion Request
-messages = [{"role": "user", "content": "Fetch weather for Tokyo"}]
+messages = [{"role": "user", "content": "Execute ${activeTool.name}"}]
 
 response = client.chat.completions.create(
     model="gpt-4o",
@@ -78,10 +85,10 @@ tools = [
 # 2. Local Python Function Implementation
 def ${activeTool.name}(**kwargs):
     print(f"Executing ${activeTool.name} locally with args:", kwargs)
-    return ${JSON.stringify(activeTool.mockHandler({ location: 'Tokyo' }), null, 4)}
+    return ${JSON.stringify(activeTool.mockHandler ? activeTool.mockHandler({ location: 'Tokyo' }) : { status: 200 }, null, 4)}
 
 # 3. Initial Request
-messages = [{"role": "user", "content": "Fetch weather for Tokyo"}]
+messages = [{"role": "user", "content": "Execute ${activeTool.name}"}]
 
 response = client.messages.create(
     model="claude-3-5-sonnet-20241022",
@@ -168,7 +175,7 @@ if response.stop_reason == "tool_use":
             <div className="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800 shadow-inner">
               <button
                 onClick={() => setProvider('openai')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                   provider === 'openai'
                     ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
                     : 'text-slate-400 hover:text-slate-200'
@@ -178,7 +185,7 @@ if response.stop_reason == "tool_use":
               </button>
               <button
                 onClick={() => setProvider('anthropic')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                   provider === 'anthropic'
                     ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30'
                     : 'text-slate-400 hover:text-slate-200'
@@ -192,13 +199,13 @@ if response.stop_reason == "tool_use":
 
         {/* Tool Target Selector */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Select Tool Target:</span>
-            {PREBUILT_TOOLS.map((t) => (
+            {allAvailableTools.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setSelectedToolId(t.id)}
-                className={`text-xs px-3 py-1.5 rounded-lg border font-mono transition-all ${
+                className={`text-xs px-3 py-1.5 rounded-lg border font-mono transition-all cursor-pointer ${
                   selectedToolId === t.id
                     ? 'bg-indigo-600 border-indigo-500 text-white font-semibold shadow-md shadow-indigo-600/30'
                     : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
@@ -211,7 +218,7 @@ if response.stop_reason == "tool_use":
 
           <button
             onClick={handleCopy}
-            className="py-2.5 px-5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="py-2.5 px-5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
           >
             {copied ? <Check className="w-4 h-4 text-emerald-300" /> : <Copy className="w-4 h-4" />}
             <span>{copied ? 'Copied to Clipboard!' : 'Copy Python SDK Code'}</span>

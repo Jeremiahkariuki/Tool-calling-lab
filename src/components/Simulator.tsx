@@ -4,17 +4,21 @@ import { runOpenAISimulation, runAnthropicSimulation } from '../utils/mockRunner
 import { executeLiveToolCalling } from '../utils/liveRunner';
 import type { SimulationStep } from '../utils/mockRunner';
 import type { AllProviderConfigs } from '../utils/apiKeys';
+import type { ToolDefinition } from '../utils/openapiParser';
 import { Play, Sparkles, Code, CheckCircle, Layers, RefreshCw, Zap, Copy, Check, ArrowRight } from 'lucide-react';
 
 interface SimulatorProps {
   configs: AllProviderConfigs;
+  customTools?: ToolDefinition[];
 }
 
-export const Simulator: React.FC<SimulatorProps> = ({ configs }) => {
+export const Simulator: React.FC<SimulatorProps> = ({ configs, customTools = [] }) => {
+  const allAvailableTools: ToolDefinition[] = [...(PREBUILT_TOOLS as any[]), ...customTools];
+
   const [provider, setProvider] = useState<'openai' | 'anthropic' | 'gemini' | 'deepseek' | 'ollama'>('openai');
   const [mode, setMode] = useState<'simulation' | 'live'>('simulation');
   const [userQuery, setUserQuery] = useState('What is the weather in Tokyo and stock price of AAPL?');
-  const [enabledTools, setEnabledTools] = useState<string[]>(['get_weather', 'get_stock_price', 'search_knowledge_base']);
+  const [enabledTools, setEnabledTools] = useState<string[]>(allAvailableTools.map(t => t.id));
   const [isSimulating, setIsSimulating] = useState(false);
   const [steps, setSteps] = useState<SimulationStep[]>([]);
   const [finalText, setFinalText] = useState<string>('');
@@ -29,17 +33,17 @@ export const Simulator: React.FC<SimulatorProps> = ({ configs }) => {
   };
 
   const toggleSelectAll = () => {
-    if (enabledTools.length === PREBUILT_TOOLS.length) {
+    if (enabledTools.length === allAvailableTools.length) {
       setEnabledTools([]);
     } else {
-      setEnabledTools(PREBUILT_TOOLS.map(t => t.id));
+      setEnabledTools(allAvailableTools.map(t => t.id));
     }
   };
 
   const handleRun = async () => {
     setIsSimulating(true);
     setErrorMessage('');
-    const activeToolObjs = PREBUILT_TOOLS.filter(t => enabledTools.includes(t.id));
+    const activeToolObjs = allAvailableTools.filter(t => enabledTools.includes(t.id));
 
     if (mode === 'live') {
       const config = configs[provider];
@@ -229,18 +233,18 @@ export const Simulator: React.FC<SimulatorProps> = ({ configs }) => {
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center justify-between">
               <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-                Registered Tools ({enabledTools.length}/{PREBUILT_TOOLS.length})
+                Registered Tools ({enabledTools.length}/{allAvailableTools.length})
               </label>
               <button
                 onClick={toggleSelectAll}
                 className="text-xs text-indigo-400 hover:text-indigo-300 font-bold transition-colors cursor-pointer"
               >
-                {enabledTools.length === PREBUILT_TOOLS.length ? 'Deselect All' : 'Select All'}
+                {enabledTools.length === allAvailableTools.length ? 'Deselect All' : 'Select All'}
               </button>
             </div>
 
             <div className="space-y-3 max-h-[260px] overflow-y-auto pr-1">
-              {PREBUILT_TOOLS.map((tool) => {
+              {allAvailableTools.map((tool) => {
                 const isChecked = enabledTools.includes(tool.id);
                 return (
                   <div
@@ -265,7 +269,11 @@ export const Simulator: React.FC<SimulatorProps> = ({ configs }) => {
                           <span className="text-xs text-slate-400 mt-1 block leading-relaxed">{tool.description}</span>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono font-semibold px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 shrink-0">
+                      <span className={`text-[10px] font-mono font-semibold px-2.5 py-1 rounded-lg border shrink-0 ${
+                        tool.isCustom
+                          ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40 font-bold'
+                          : 'bg-slate-800 text-slate-300 border-slate-700'
+                      }`}>
                         {tool.category}
                       </span>
                     </div>
