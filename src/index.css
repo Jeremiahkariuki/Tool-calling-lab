@@ -2,22 +2,18 @@
 @import "tailwindcss";
 
 :root {
-  --bg-dark: #0b0f19;
-  --bg-card: rgba(18, 26, 44, 0.75);
-  --bg-card-hover: rgba(26, 38, 64, 0.85);
-  --border-glow: rgba(99, 102, 241, 0.2);
-  --border-glass: rgba(255, 255, 255, 0.08);
-  
+  --bg-dark: #090d16;
+  --bg-card: rgba(15, 23, 42, 0.75);
+  --bg-card-hover: rgba(30, 41, 59, 0.85);
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --border-glow: rgba(99, 102, 241, 0.3);
+
   --accent-openai: #10a37f;
-  --accent-openai-glow: rgba(16, 163, 127, 0.3);
   --accent-anthropic: #d97706;
-  --accent-anthropic-glow: rgba(217, 119, 6, 0.3);
+  --accent-gemini: #3b82f6;
+  --accent-deepseek: #06b6d4;
+  --accent-ollama: #a855f7;
   --accent-primary: #6366f1;
-  --accent-cyan: #06b6d4;
-  
-  --text-main: #f3f4f6;
-  --text-muted: #9ca3af;
-  --text-dim: #6b7280;
 
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'Fira Code', monospace;
@@ -31,14 +27,15 @@
 
 body {
   background-color: var(--bg-dark);
-  color: var(--text-main);
+  color: #f8fafc;
   font-family: var(--font-sans);
   min-height: 100vh;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(217, 119, 6, 0.1) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(16, 163, 127, 0.08) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 45%),
+    radial-gradient(at 100% 0%, rgba(217, 119, 6, 0.12) 0px, transparent 45%),
+    radial-gradient(at 50% 100%, rgba(16, 163, 127, 0.1) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
   background-attachment: fixed;
 }
 
@@ -48,106 +45,108 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(11, 15, 25, 0.8);
+  background: rgba(9, 13, 22, 0.9);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.32);
 }
 
-/* Glassmorphic Panel Utility */
-.glass-panel {
-  background: var(--bg-card);
+/* Glassmorphism Components */
+.glass-card {
+  background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-glass);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glass-panel:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+.glass-card-hover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-card-hover:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+  transform: translateY(-2px);
 }
 
-/* Glowing Badges */
+.glass-input {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+.glass-input:focus {
+  outline: none;
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* Glowing Accent Utilities */
+.glow-openai {
+  box-shadow: 0 0 20px -5px rgba(16, 163, 127, 0.4);
+}
+.glow-anthropic {
+  box-shadow: 0 0 20px -5px rgba(217, 119, 6, 0.4);
+}
+.glow-gemini {
+  box-shadow: 0 0 20px -5px rgba(59, 130, 246, 0.4);
+}
+.glow-deepseek {
+  box-shadow: 0 0 20px -5px rgba(6, 182, 212, 0.4);
+}
+.glow-ollama {
+  box-shadow: 0 0 20px -5px rgba(168, 85, 247, 0.4);
+}
+.glow-indigo {
+  box-shadow: 0 0 20px -5px rgba(99, 102, 241, 0.4);
+}
+
+/* Brand Badges */
 .badge-openai {
   background: rgba(16, 163, 127, 0.15);
   color: #34d399;
   border: 1px solid rgba(16, 163, 127, 0.35);
-  box-shadow: 0 0 12px var(--accent-openai-glow);
 }
-
 .badge-anthropic {
   background: rgba(217, 119, 6, 0.15);
   color: #fbbf24;
   border: 1px solid rgba(217, 119, 6, 0.35);
-  box-shadow: 0 0 12px var(--accent-anthropic-glow);
+}
+.badge-gemini {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+.badge-deepseek {
+  background: rgba(6, 182, 212, 0.15);
+  color: #22d3ee;
+  border: 1px solid rgba(6, 182, 212, 0.35);
+}
+.badge-ollama {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.35);
 }
 
-.badge-purple {
-  background: rgba(99, 102, 241, 0.15);
-  color: #818cf8;
-  border: 1px solid rgba(99, 102, 241, 0.35);
-}
-
-/* Buttons */
-.btn-primary {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-  color: #ffffff;
-  font-weight: 500;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39);
-}
-
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px 0 rgba(99, 102, 241, 0.55);
-}
-
-.btn-primary:active {
-  transform: translateY(0);
-}
-
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-main);
-  border: 1px solid var(--border-glass);
-  padding: 0.55rem 1.1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  transition: background 0.15s ease;
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-/* Code Editor / Pre */
+/* Code Formatting */
 pre code {
   font-family: var(--font-mono) !important;
   font-size: 0.85rem !important;
-  line-height: 1.5 !important;
+  line-height: 1.6 !important;
 }
 
-/* Animations */
+/* Keyframe Animations */
 @keyframes pulseGlow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.05); }
 }
 
 .animate-pulse-glow {

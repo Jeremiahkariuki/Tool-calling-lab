@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PREBUILT_TOOLS } from '../utils/sampleData';
-import { Code2, Copy, Check, Terminal } from 'lucide-react';
+import { Copy, Check, Terminal, Sparkles } from 'lucide-react';
 
 export const CodeGenerator: React.FC = () => {
   const [provider, setProvider] = useState<'openai' | 'anthropic'>('openai');
@@ -144,34 +144,44 @@ if response.stop_reason == "tool_use":
   };
 
   return (
-    <div className="space-y-6">
-      <div className="glass-panel p-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
+    <div className="space-y-8">
+      
+      {/* Header Panel */}
+      <div className="glass-card p-6 md:p-8 space-y-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-800">
           <div>
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <Code2 className="w-5 h-5 text-indigo-400" />
-              Production SDK Code Generator
-            </h2>
-            <p className="text-sm text-gray-400 mt-1">
-              Generate fully functional, copy-paste ready Python code for complete multi-turn tool loops.
+            <div className="flex items-center gap-2">
+              <span className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                <Sparkles className="w-5 h-5" />
+              </span>
+              <h2 className="text-xl font-bold text-slate-100 tracking-tight">
+                Production SDK Code Generator
+              </h2>
+            </div>
+            <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+              Generate fully functional, copy-paste ready Python code for complete multi-turn tool loops with full error handling and result formatting.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             {/* Provider Selector */}
-            <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/10">
+            <div className="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800 shadow-inner">
               <button
                 onClick={() => setProvider('openai')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${
-                  provider === 'openai' ? 'bg-emerald-600 text-white' : 'text-gray-400 hover:text-white'
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  provider === 'openai'
+                    ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
+                    : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 OpenAI SDK
               </button>
               <button
                 onClick={() => setProvider('anthropic')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${
-                  provider === 'anthropic' ? 'bg-amber-600 text-white' : 'text-gray-400 hover:text-white'
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  provider === 'anthropic'
+                    ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30'
+                    : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 Anthropic SDK
@@ -180,18 +190,18 @@ if response.stop_reason == "tool_use":
           </div>
         </div>
 
-        {/* Select Tool Target */}
-        <div className="flex items-center justify-between pt-6">
+        {/* Tool Target Selector */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-400 font-medium">Select Registered Tool:</span>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Select Tool Target:</span>
             {PREBUILT_TOOLS.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setSelectedToolId(t.id)}
                 className={`text-xs px-3 py-1.5 rounded-lg border font-mono transition-all ${
                   selectedToolId === t.id
-                    ? 'bg-indigo-600 border-indigo-500 text-white font-semibold'
-                    : 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10'
+                    ? 'bg-indigo-600 border-indigo-500 text-white font-semibold shadow-md shadow-indigo-600/30'
+                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
                 }`}
               >
                 {t.name}
@@ -201,27 +211,27 @@ if response.stop_reason == "tool_use":
 
           <button
             onClick={handleCopy}
-            className="btn-primary text-xs py-2 px-4"
+            className="py-2.5 px-5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
-            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-            {copied ? 'Copied to Clipboard!' : 'Copy Python Code'}
+            {copied ? <Check className="w-4 h-4 text-emerald-300" /> : <Copy className="w-4 h-4" />}
+            <span>{copied ? 'Copied to Clipboard!' : 'Copy Python SDK Code'}</span>
           </button>
         </div>
       </div>
 
       {/* Code Snippet Box */}
-      <div className="glass-panel p-5 space-y-3">
-        <div className="flex items-center justify-between border-b border-white/10 pb-3">
-          <span className="text-xs font-mono text-gray-400 flex items-center gap-2">
+      <div className="glass-card p-6 space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+          <span className="text-xs font-mono text-slate-300 font-semibold flex items-center gap-2">
             <Terminal className="w-4 h-4 text-indigo-400" />
             main.py ({provider.toUpperCase()} Multi-Turn Loop)
           </span>
-          <span className="text-[11px] text-gray-500 font-mono">
-            {provider === 'openai' ? 'openai>=1.0.0' : 'anthropic>=0.18.0'}
+          <span className="text-[11px] text-slate-400 font-mono">
+            {provider === 'openai' ? 'pip install openai' : 'pip install anthropic'}
           </span>
         </div>
 
-        <div className="bg-slate-950 p-4 rounded-xl border border-white/10 overflow-x-auto max-h-[600px]">
+        <div className="bg-slate-950 p-5 rounded-xl border border-slate-800 overflow-x-auto max-h-[600px]">
           <pre className="text-xs text-indigo-200 font-mono leading-relaxed">
             {getSnippet()}
           </pre>

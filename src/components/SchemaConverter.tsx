@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { convertOpenAIToAnthropic, convertAnthropicToOpenAI, safeFormatJson } from '../utils/schemaConverter';
 import { PREBUILT_TOOLS } from '../utils/sampleData';
-import { ArrowRightLeft, AlertTriangle, Copy, Check, FileCode, RefreshCw } from 'lucide-react';
+import { ArrowRightLeft, AlertTriangle, Copy, Check, FileCode, RefreshCw, Sparkles } from 'lucide-react';
 
 export const SchemaConverter: React.FC = () => {
   const [direction, setDirection] = useState<'openai-to-anthropic' | 'anthropic-to-openai'>('openai-to-anthropic');
@@ -73,28 +73,33 @@ export const SchemaConverter: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      
       {/* Header Panel */}
-      <div className="glass-panel p-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
+      <div className="glass-card p-6 md:p-8 space-y-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-800">
           <div>
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <ArrowRightLeft className="w-5 h-5 text-indigo-400" />
-              Bi-Directional Tool Schema Converter
-            </h2>
-            <p className="text-sm text-gray-400 mt-1">
-              Instantly map between OpenAI `{`{ type: "function", function: ... }`}` and Anthropic `{`{ name, description, input_schema }`}` tool specifications.
+            <div className="flex items-center gap-2">
+              <span className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                <Sparkles className="w-5 h-5" />
+              </span>
+              <h2 className="text-xl font-bold text-slate-100 tracking-tight">
+                Bi-Directional Tool Schema Converter
+              </h2>
+            </div>
+            <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+              Instantly map between OpenAI JSON Function Calling specs and Anthropic Tool definitions without writing boilerplate normalization code.
             </p>
           </div>
 
-          {/* Load Prebuilt Samples */}
+          {/* Sample Loader */}
           <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-400">Load Tool Sample:</span>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Samples:</span>
             {PREBUILT_TOOLS.map((t) => (
               <button
                 key={t.id}
                 onClick={() => loadSample(t.id)}
-                className="text-xs px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 font-mono"
+                className="text-xs px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-indigo-500/50 hover:text-indigo-300 transition-all font-mono"
               >
                 {t.name}
               </button>
@@ -102,10 +107,10 @@ export const SchemaConverter: React.FC = () => {
           </div>
         </div>
 
-        {/* Direction Switcher Banner */}
-        <div className="flex items-center justify-between pt-6">
+        {/* Direction Switcher Toolbar */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
           <div className="flex items-center gap-3">
-            <span className={`text-xs px-3 py-1 rounded-full font-semibold ${
+            <span className={`text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider ${
               direction === 'openai-to-anthropic' ? 'badge-openai' : 'badge-anthropic'
             }`}>
               {direction === 'openai-to-anthropic' ? 'Source: OpenAI Function Spec' : 'Source: Anthropic Tool Spec'}
@@ -113,13 +118,13 @@ export const SchemaConverter: React.FC = () => {
 
             <button
               onClick={handleSwapDirection}
-              className="btn-secondary text-xs py-1 px-3 flex items-center gap-1.5"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 transition-all"
             >
               <ArrowRightLeft className="w-3.5 h-3.5" />
-              Swap Direction
+              <span>Swap Direction</span>
             </button>
 
-            <span className={`text-xs px-3 py-1 rounded-full font-semibold ${
+            <span className={`text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider ${
               direction === 'openai-to-anthropic' ? 'badge-anthropic' : 'badge-openai'
             }`}>
               {direction === 'openai-to-anthropic' ? 'Target: Anthropic Tool Spec' : 'Target: OpenAI Function Spec'}
@@ -128,27 +133,28 @@ export const SchemaConverter: React.FC = () => {
 
           <button
             onClick={handleConvert}
-            className="btn-primary text-xs py-2 px-4"
+            className="py-2.5 px-5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            Convert Schema
+            <span>Convert Schema Now</span>
           </button>
         </div>
       </div>
 
-      {/* Converter Dual Panels */}
+      {/* Dual Panel Editors */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left Panel: Input Schema Editor */}
-        <div className="glass-panel p-5 space-y-3">
-          <div className="flex items-center justify-between">
-            <label className="text-xs font-bold text-gray-300 flex items-center gap-2 font-mono">
+        
+        {/* Left Panel: Input Editor */}
+        <div className="glass-card p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <label className="text-xs font-bold text-slate-200 flex items-center gap-2 font-mono uppercase tracking-wider">
               <FileCode className="w-4 h-4 text-indigo-400" />
-              INPUT ({direction === 'openai-to-anthropic' ? 'OpenAI' : 'Anthropic'})
+              INPUT ({direction === 'openai-to-anthropic' ? 'OpenAI Spec' : 'Anthropic Spec'})
             </label>
 
             <button
               onClick={() => setInputJson(safeFormatJson(inputJson))}
-              className="text-[11px] text-gray-400 hover:text-white px-2 py-0.5 rounded bg-white/5 border border-white/5"
+              className="text-xs text-slate-400 hover:text-slate-200 px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700 font-mono transition-all"
             >
               Prettify JSON
             </button>
@@ -158,57 +164,57 @@ export const SchemaConverter: React.FC = () => {
             value={inputJson}
             onChange={(e) => setInputJson(e.target.value)}
             rows={18}
-            className="w-full bg-slate-950 font-mono text-xs text-indigo-200 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-indigo-500 transition-all resize-none leading-relaxed"
+            className="w-full bg-slate-950 font-mono text-xs text-indigo-200 border border-slate-800 rounded-xl p-4 focus:outline-none focus:border-indigo-500 transition-all resize-none leading-relaxed"
             placeholder="Paste source JSON schema here..."
           />
         </div>
 
-        {/* Right Panel: Output Schema Panel */}
-        <div className="glass-panel p-5 space-y-3">
-          <div className="flex items-center justify-between">
-            <label className="text-xs font-bold text-gray-300 flex items-center gap-2 font-mono">
+        {/* Right Panel: Converted Output */}
+        <div className="glass-card p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <label className="text-xs font-bold text-slate-200 flex items-center gap-2 font-mono uppercase tracking-wider">
               <FileCode className="w-4 h-4 text-emerald-400" />
-              OUTPUT ({direction === 'openai-to-anthropic' ? 'Anthropic' : 'OpenAI'})
+              OUTPUT ({direction === 'openai-to-anthropic' ? 'Anthropic Spec' : 'OpenAI Spec'})
             </label>
 
             {outputJson && (
               <button
                 onClick={handleCopyOutput}
-                className="text-[11px] flex items-center gap-1 text-emerald-400 hover:text-emerald-300 px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20"
+                className="text-xs flex items-center gap-1.5 text-emerald-300 hover:text-emerald-200 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 font-semibold transition-all"
               >
-                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                {copied ? 'Copied!' : 'Copy Result'}
+                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copied ? 'Copied!' : 'Copy Converted Schema'}</span>
               </button>
             )}
           </div>
 
           {error ? (
-            <div className="bg-red-950/30 border border-red-500/30 rounded-xl p-4 space-y-2">
-              <div className="flex items-center gap-2 text-red-400 font-semibold text-xs">
+            <div className="bg-red-950/40 border border-red-500/30 rounded-xl p-4 space-y-2">
+              <div className="flex items-center gap-2 text-red-400 font-bold text-xs">
                 <AlertTriangle className="w-4 h-4" />
                 Conversion Error
               </div>
-              <p className="text-xs text-red-300 font-mono">{error}</p>
+              <p className="text-xs text-red-300 font-mono leading-relaxed">{error}</p>
             </div>
           ) : (
             <div className="relative">
               <textarea
                 readOnly
-                value={outputJson || 'Click "Convert Schema" above or edit input to generate converted schema.'}
+                value={outputJson || 'Click "Convert Schema Now" above to generate converted schema payload.'}
                 rows={18}
-                className="w-full bg-slate-950 font-mono text-xs text-emerald-200 border border-white/10 rounded-xl p-4 focus:outline-none transition-all resize-none leading-relaxed"
+                className="w-full bg-slate-950 font-mono text-xs text-emerald-200 border border-slate-800 rounded-xl p-4 focus:outline-none transition-all resize-none leading-relaxed"
               />
             </div>
           )}
 
-          {/* Warnings List */}
+          {/* Warnings Panel */}
           {warnings.length > 0 && (
-            <div className="bg-amber-950/30 border border-amber-500/30 rounded-xl p-3.5 space-y-1.5">
-              <div className="flex items-center gap-2 text-amber-400 font-semibold text-xs">
-                <AlertTriangle className="w-3.5 h-3.5" />
+            <div className="bg-amber-950/40 border border-amber-500/30 rounded-xl p-4 space-y-2">
+              <div className="flex items-center gap-2 text-amber-400 font-bold text-xs">
+                <AlertTriangle className="w-4 h-4" />
                 Schema Normalization Warnings ({warnings.length})
               </div>
-              <ul className="list-disc list-inside text-[11px] text-amber-200/80 space-y-1">
+              <ul className="list-disc list-inside text-xs text-amber-200/90 space-y-1 font-mono">
                 {warnings.map((w, idx) => (
                   <li key={idx}>{w}</li>
                 ))}

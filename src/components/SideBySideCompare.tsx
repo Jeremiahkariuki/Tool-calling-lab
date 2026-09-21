@@ -12,7 +12,7 @@ interface SideBySideCompareProps {
 
 export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs }) => {
   const [userQuery, setUserQuery] = useState('What is the current weather in Tokyo in Celsius and AAPL stock price?');
-  const [enabledTools, setEnabledTools] = useState<string[]>(['get_weather', 'get_stock_price', 'search_database']);
+  const [enabledTools, setEnabledTools] = useState<string[]>(['get_weather', 'get_stock_price', 'search_knowledge_base']);
   const [selectedProviders, setSelectedProviders] = useState<string[]>(['openai', 'anthropic', 'gemini']);
   const [executionMode, setExecutionMode] = useState<'simulated' | 'live'>('simulated');
   const [isRunning, setIsRunning] = useState(false);
@@ -123,70 +123,77 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
   };
 
   const providersList = [
-    { id: 'openai', name: 'OpenAI', badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
-    { id: 'anthropic', name: 'Anthropic', badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-500/30' },
-    { id: 'gemini', name: 'Google Gemini', badgeColor: 'bg-blue-500/20 text-blue-300 border-blue-500/30' },
-    { id: 'deepseek', name: 'DeepSeek', badgeColor: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30' },
-    { id: 'ollama', name: 'Ollama (Local)', badgeColor: 'bg-purple-500/20 text-purple-300 border-purple-500/30' }
+    { id: 'openai', name: 'OpenAI', badgeColor: 'badge-openai' },
+    { id: 'anthropic', name: 'Anthropic', badgeColor: 'badge-anthropic' },
+    { id: 'gemini', name: 'Google Gemini', badgeColor: 'badge-gemini' },
+    { id: 'deepseek', name: 'DeepSeek', badgeColor: 'badge-deepseek' },
+    { id: 'ollama', name: 'Ollama (Local)', badgeColor: 'badge-ollama' }
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner / Setup */}
-      <div className="glass-panel p-6 space-y-6">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-white/10">
+    <div className="space-y-8">
+      
+      {/* Top Banner Studio Setup */}
+      <div className="glass-card p-6 md:p-8 space-y-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-800">
           <div>
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-indigo-400" />
-              Side-by-Side Provider Comparison Studio
-            </h2>
-            <p className="text-sm text-gray-400 mt-1">
-              Compare tool selection reasoning, JSON argument formatting, and response speed across models simultaneously.
+            <div className="flex items-center gap-2">
+              <span className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                <Sparkles className="w-5 h-5" />
+              </span>
+              <h2 className="text-xl font-bold text-slate-100 tracking-tight">
+                Side-by-Side Provider Comparison Studio
+              </h2>
+            </div>
+            <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+              Simultaneously benchmark model latency, tool call selection logic, JSON argument schemas, and answer synthesis across OpenAI, Anthropic, Gemini, and DeepSeek.
             </p>
           </div>
 
           {/* Mode Selector */}
-          <div className="flex items-center gap-2 bg-black/40 p-1.5 rounded-xl border border-white/10 self-start lg:self-auto">
+          <div className="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800 shadow-inner self-start lg:self-auto">
             <button
               onClick={() => setExecutionMode('simulated')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 executionMode === 'simulated'
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
-                  : 'text-gray-400 hover:text-white'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                  : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              Simulated Mode
+              Simulated Benchmark
             </button>
 
             <button
               onClick={() => setExecutionMode('live')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 executionMode === 'live'
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30'
-                  : 'text-gray-400 hover:text-white'
+                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
+                  : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              Live API Mode
+              Live Multi-Call
             </button>
           </div>
         </div>
 
-        {/* Input & Options Grid */}
+        {/* Configuration Matrix */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Prompt input */}
+          
+          {/* Prompt Input */}
           <div className="lg:col-span-6 space-y-3">
-            <label className="text-xs font-semibold text-gray-300">Prompt Query</label>
+            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+              Query Prompt
+            </label>
             <textarea
               value={userQuery}
               onChange={(e) => setUserQuery(e.target.value)}
               rows={3}
               placeholder="Query requiring tool execution..."
-              className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition-all resize-none font-sans"
+              className="glass-input w-full p-3.5 text-xs text-slate-100 placeholder-slate-500 resize-none font-sans leading-relaxed"
             />
 
-            {/* Presets */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] text-gray-400">Presets:</span>
+              <span className="text-[11px] text-slate-400 font-medium">Presets:</span>
               {[
                 'What is the current weather in Tokyo in Celsius and AAPL stock price?',
                 'Get NVDA quote and search knowledge base for tool specs'
@@ -194,7 +201,7 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
                 <button
                   key={i}
                   onClick={() => setUserQuery(p)}
-                  className="text-[11px] px-2.5 py-1 rounded-md bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white border border-white/5 transition-all truncate max-w-[280px]"
+                  className="text-xs px-3 py-1 rounded-lg bg-slate-900/80 border border-slate-800 text-slate-300 hover:border-indigo-500/50 hover:text-indigo-300 transition-all truncate max-w-[280px]"
                 >
                   {p}
                 </button>
@@ -202,9 +209,11 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
             </div>
           </div>
 
-          {/* Target Providers Selector */}
+          {/* Target Providers Checkboxes */}
           <div className="lg:col-span-3 space-y-3">
-            <label className="text-xs font-semibold text-gray-300">Compare Providers</label>
+            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+              Target Providers ({selectedProviders.length})
+            </label>
             <div className="space-y-1.5">
               {providersList.map((p) => {
                 const isChecked = selectedProviders.includes(p.id);
@@ -212,20 +221,20 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
                   <div
                     key={p.id}
                     onClick={() => toggleProvider(p.id)}
-                    className={`flex items-center justify-between p-2 rounded-lg border text-xs cursor-pointer transition-all ${
+                    className={`flex items-center justify-between p-2.5 rounded-xl border text-xs cursor-pointer transition-all ${
                       isChecked
-                        ? 'bg-indigo-950/40 border-indigo-500/40 text-indigo-200'
-                        : 'bg-white/5 border-white/5 text-gray-500 opacity-60 hover:opacity-100'
+                        ? 'bg-indigo-950/40 border-indigo-500/50 text-slate-200'
+                        : 'bg-slate-900/40 border-slate-800/80 text-slate-500 hover:border-slate-700'
                     }`}
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2.5">
                       <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => {}}
-                        className="rounded border-gray-600 bg-gray-900 text-indigo-600 focus:ring-0"
+                        className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-0 cursor-pointer"
                       />
-                      <span>{p.name}</span>
+                      <span className="font-semibold text-slate-200">{p.name}</span>
                     </div>
                   </div>
                 );
@@ -233,20 +242,22 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
             </div>
           </div>
 
-          {/* Registered Tools */}
+          {/* Registered Active Tools */}
           <div className="lg:col-span-3 space-y-3">
-            <label className="text-xs font-semibold text-gray-300">Active Tools ({enabledTools.length})</label>
-            <div className="space-y-1.5 max-h-[110px] overflow-y-auto pr-1">
+            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+              Active Tools ({enabledTools.length})
+            </label>
+            <div className="space-y-1.5 max-h-[120px] overflow-y-auto pr-1">
               {PREBUILT_TOOLS.map((tool) => {
                 const isChecked = enabledTools.includes(tool.id);
                 return (
                   <div
                     key={tool.id}
                     onClick={() => toggleTool(tool.id)}
-                    className={`flex items-center justify-between p-1.5 rounded-lg border text-xs cursor-pointer transition-all ${
+                    className={`flex items-center justify-between p-2 rounded-lg border text-xs cursor-pointer transition-all ${
                       isChecked
-                        ? 'bg-indigo-950/40 border-indigo-500/40 text-indigo-200'
-                        : 'bg-white/5 border-white/5 text-gray-500 opacity-60 hover:opacity-100'
+                        ? 'bg-indigo-950/40 border-indigo-500/50 text-slate-200'
+                        : 'bg-slate-900/40 border-slate-800/80 text-slate-500 hover:border-slate-700'
                     }`}
                   >
                     <div className="flex items-center gap-2">
@@ -254,9 +265,9 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => {}}
-                        className="rounded border-gray-600 bg-gray-900 text-indigo-600 focus:ring-0"
+                        className="rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-0"
                       />
-                      <span className="font-mono text-[11px]">{tool.name}</span>
+                      <span className="font-mono text-[11px] font-semibold">{tool.name}</span>
                     </div>
                   </div>
                 );
@@ -266,17 +277,17 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
             <button
               onClick={handleRunComparison}
               disabled={isRunning || selectedProviders.length === 0}
-              className="w-full btn-primary justify-center py-2.5 text-xs mt-2 disabled:opacity-50"
+              className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer mt-2"
             >
               {isRunning ? (
                 <>
                   <Zap className="w-4 h-4 animate-spin text-amber-300" />
-                  Running Simultaneous Calls...
+                  <span>Running Parallel Benchmark...</span>
                 </>
               ) : (
                 <>
                   <Play className="w-4 h-4 fill-white" />
-                  Run Side-by-Side Comparison
+                  <span>Run Side-by-Side Comparison</span>
                 </>
               )}
             </button>
@@ -284,9 +295,9 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
         </div>
       </div>
 
-      {/* Side-by-Side Comparison Grid */}
+      {/* Side-by-Side Provider Output Matrix */}
       {Object.keys(results).length > 0 && (
-        <div className={`grid grid-cols-1 md:grid-cols-${Math.min(Object.keys(results).length, 3)} gap-6`}>
+        <div className={`grid grid-cols-1 md:grid-cols-${Math.min(selectedProviders.length, 3)} gap-6`}>
           {selectedProviders.map((providerId) => {
             const res = results[providerId];
             if (!res) return null;
@@ -295,53 +306,54 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
             return (
               <div
                 key={providerId}
-                className="glass-panel p-5 flex flex-col justify-between space-y-4 border-white/10 hover:border-white/20 transition-all"
+                className="glass-card p-6 flex flex-col justify-between space-y-5 border-slate-800 hover:border-slate-700 transition-all"
               >
                 <div className="space-y-4">
-                  {/* Provider Header */}
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  
+                  {/* Provider Header Card */}
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-3.5">
                     <div>
-                      <span className={`text-[10px] px-2 py-0.5 rounded-md font-mono font-medium border ${pInfo?.badgeColor || 'bg-white/10 text-white'}`}>
+                      <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold uppercase tracking-wider ${pInfo?.badgeColor || 'bg-slate-800 text-slate-200'}`}>
                         {pInfo?.name || providerId}
                       </span>
-                      <h3 className="text-sm font-bold text-white mt-1.5 flex items-center gap-1.5 font-mono">
+                      <h3 className="text-sm font-bold text-slate-100 mt-2 flex items-center gap-1.5 font-mono">
                         <Cpu className="w-3.5 h-3.5 text-indigo-400" />
                         {res.model}
                       </h3>
                     </div>
 
-                    <div className="flex flex-col items-end gap-1">
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1 ${
+                    <div className="flex flex-col items-end gap-1.5">
+                      <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1 ${
                         res.success ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-red-500/20 text-red-300 border border-red-500/30'
                       }`}>
-                        {res.success ? <CheckCircle className="w-3 h-3" /> : <AlertTriangle className="w-3 h-3" />}
+                        {res.success ? <CheckCircle className="w-3 h-3 text-emerald-400" /> : <AlertTriangle className="w-3 h-3 text-red-400" />}
                         {res.success ? 'Success' : 'Error'}
                       </span>
 
-                      <span className="text-[11px] text-gray-400 flex items-center gap-1 font-mono">
+                      <span className="text-[11px] text-slate-400 flex items-center gap-1 font-mono font-semibold">
                         <Clock className="w-3 h-3 text-indigo-400" />
                         {res.latencyMs} ms
                       </span>
                     </div>
                   </div>
 
-                  {/* Error state if failed */}
+                  {/* Error State */}
                   {res.error && (
-                    <div className="p-3 bg-red-950/30 border border-red-500/30 rounded-xl text-xs text-red-300 space-y-1">
-                      <span className="font-semibold flex items-center gap-1">
+                    <div className="p-3 bg-red-950/40 border border-red-500/30 rounded-xl text-xs text-red-300 space-y-1">
+                      <strong className="font-bold flex items-center gap-1 text-red-200">
                         <AlertTriangle className="w-3.5 h-3.5" />
-                        Execution Failed
-                      </span>
-                      <p className="text-[11px] opacity-90">{res.error}</p>
+                        Provider Error
+                      </strong>
+                      <p className="text-[11px] text-red-300">{res.error}</p>
                     </div>
                   )}
 
-                  {/* Tool Call Decisions */}
+                  {/* Generated Tool Calls */}
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between text-xs text-gray-300 font-medium">
-                      <span>Tool Calls Generated</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono">
-                        {res.toolCallsCount} tool{res.toolCallsCount !== 1 ? 's' : ''}
+                    <div className="flex items-center justify-between text-xs text-slate-300 font-semibold">
+                      <span>Tool Calls Requested</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 font-mono border border-indigo-500/30">
+                        {res.toolCallsCount} function{res.toolCallsCount !== 1 ? 's' : ''}
                       </span>
                     </div>
 
@@ -350,21 +362,21 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
                         {res.toolCalls.map((tc, idx) => (
                           <div
                             key={idx}
-                            className="p-3 rounded-lg bg-black/40 border border-white/10 space-y-1.5"
+                            className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5"
                           >
                             <div className="flex items-center justify-between text-xs">
                               <span className="font-mono font-bold text-indigo-300">{tc.name}</span>
-                              <span className="text-[10px] text-gray-500 font-mono">ID: {tc.id.substring(0, 10)}</span>
+                              <span className="text-[10px] text-slate-500 font-mono">ID: {tc.id.substring(0, 10)}</span>
                             </div>
-                            <pre className="text-[11px] text-emerald-300 bg-slate-950 p-2 rounded border border-white/5 font-mono overflow-x-auto">
+                            <pre className="text-[11px] text-emerald-300 bg-slate-900 p-2.5 rounded-lg border border-slate-800 font-mono overflow-x-auto">
                               {JSON.stringify(tc.arguments, null, 2)}
                             </pre>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <div className="p-3 bg-white/5 rounded-lg text-xs text-gray-400 text-center">
-                        No tool calls requested by model.
+                      <div className="p-4 bg-slate-900/60 border border-slate-800 rounded-xl text-xs text-slate-400 text-center">
+                        No tools invoked by model.
                       </div>
                     )}
                   </div>
@@ -372,37 +384,37 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
                   {/* Synthesized Output */}
                   {res.finalText && (
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-gray-300">Synthesized Answer</label>
-                      <div className="p-3 rounded-lg bg-black/30 border border-white/5 text-xs text-gray-200 leading-relaxed max-h-[160px] overflow-y-auto whitespace-pre-line font-sans">
+                      <label className="text-xs font-semibold text-slate-300">Synthesized Answer</label>
+                      <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-200 leading-relaxed max-h-[160px] overflow-y-auto whitespace-pre-line font-sans">
                         {res.finalText}
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* Raw HTTP Payload Inspector Drawer Toggle */}
-                <div className="border-t border-white/10 pt-3">
+                {/* Inspect Raw REST Payloads */}
+                <div className="border-t border-slate-800 pt-3">
                   <button
                     onClick={() => togglePayloadExpand(providerId)}
-                    className="w-full flex items-center justify-between text-xs text-gray-400 hover:text-white transition-all py-1 font-mono"
+                    className="w-full flex items-center justify-between text-xs text-slate-400 hover:text-slate-200 transition-all py-1 font-mono"
                   >
                     <span className="flex items-center gap-1.5">
                       <Code className="w-3.5 h-3.5 text-indigo-400" />
-                      Inspect Raw REST Payloads ({res.steps.length} steps)
+                      Inspect Raw Payload Trace ({res.steps.length} steps)
                     </span>
-                    <Eye className="w-3.5 h-3.5" />
+                    <Eye className="w-3.5 h-3.5 text-slate-400" />
                   </button>
 
                   {expandedPayloads[providerId] && (
                     <div className="mt-3 space-y-3 max-h-[300px] overflow-y-auto pr-1">
                       {res.steps.map((st) => (
-                        <div key={st.stepIndex} className="p-2.5 bg-slate-950 rounded-lg border border-white/10 space-y-1">
+                        <div key={st.stepIndex} className="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1">
                           <div className="flex items-center justify-between text-[11px]">
                             <span className="font-bold text-indigo-300">{st.title}</span>
-                            <span className="text-[10px] text-gray-500">{st.timestamp}</span>
+                            <span className="text-[10px] text-slate-500 font-mono">{st.timestamp}</span>
                           </div>
-                          <p className="text-[10px] text-gray-400">{st.description}</p>
-                          <pre className="text-[10px] text-indigo-200 font-mono p-2 bg-black/60 rounded border border-white/5 overflow-x-auto">
+                          <p className="text-[10px] text-slate-400">{st.description}</p>
+                          <pre className="text-[10px] text-indigo-200 font-mono p-2.5 bg-slate-900 rounded-lg border border-slate-800 overflow-x-auto">
                             {JSON.stringify(st.requestPayload || st.responsePayload, null, 2)}
                           </pre>
                         </div>

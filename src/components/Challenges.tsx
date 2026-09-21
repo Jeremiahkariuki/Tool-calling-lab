@@ -60,35 +60,40 @@ export const Challenges: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      
       {/* Header Banner */}
-      <div className="glass-panel p-6">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 rounded-xl bg-amber-600/20 text-amber-400 border border-amber-500/30">
-            <Trophy className="w-6 h-6" />
-          </div>
+      <div className="glass-card p-6 md:p-8 space-y-6">
+        <div className="flex items-center gap-3">
+          <span className="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <Trophy className="w-5 h-5 text-amber-400" />
+          </span>
           <div>
-            <h2 className="text-xl font-bold text-white">Tool Calling Mastery Challenges</h2>
-            <p className="text-sm text-gray-400">Test your understanding by solving real-world schema and payload challenges.</p>
+            <h2 className="text-xl font-bold text-slate-100 tracking-tight">
+              Tool Calling Mastery Challenges
+            </h2>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Solve interactive schema challenges to master Anthropic Tool Use and OpenAI Function Calling specifications.
+            </p>
           </div>
         </div>
 
         {/* Challenge Tabs */}
-        <div className="flex overflow-x-auto gap-2 pt-6 border-t border-white/10 mt-4">
+        <div className="flex overflow-x-auto gap-2 pt-4 border-t border-slate-800 no-scrollbar">
           {MASTERY_CHALLENGES.map((c) => (
             <button
               key={c.id}
               onClick={() => handleSelectChallenge(c)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border ${
                 activeChallengeId === c.id
-                  ? 'bg-amber-600/20 text-amber-300 border-amber-500/50 shadow-lg shadow-amber-600/10'
-                  : 'bg-white/5 text-gray-400 border-white/5 hover:bg-white/10 hover:text-white'
+                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-lg shadow-amber-500/10'
+                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
               }`}
             >
               <span className={`w-2 h-2 rounded-full ${
                 c.difficulty === 'Beginner' ? 'bg-emerald-400' : 'bg-amber-400'
               }`} />
-              {c.title}
+              <span>{c.title}</span>
             </button>
           ))}
         </div>
@@ -96,58 +101,59 @@ export const Challenges: React.FC = () => {
 
       {/* Interactive Challenge Workbench */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
         {/* Challenge Instructions */}
-        <div className="lg:col-span-5 glass-panel p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 font-semibold">
+        <div className="lg:col-span-5 glass-card p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 font-bold uppercase tracking-wider">
               {activeChallenge.difficulty}
             </span>
-            <span className="text-xs font-mono text-gray-500">ID: {activeChallenge.id}</span>
+            <span className="text-xs font-mono text-slate-500">ID: {activeChallenge.id}</span>
           </div>
 
-          <h3 className="text-lg font-bold text-white">{activeChallenge.title}</h3>
+          <h3 className="text-base font-bold text-slate-100">{activeChallenge.title}</h3>
 
-          <p className="text-xs text-gray-300 leading-relaxed bg-white/5 p-3.5 rounded-xl border border-white/5">
+          <p className="text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-4 rounded-xl border border-slate-800">
             {activeChallenge.description}
           </p>
 
           <div className="space-y-2">
-            <h4 className="text-xs font-bold text-gray-200">Objective Instructions:</h4>
-            <p className="text-xs text-gray-400 leading-relaxed bg-black/40 p-3 rounded-lg border border-white/5 font-mono">
+            <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider">Objective Instructions:</h4>
+            <p className="text-xs text-slate-400 leading-relaxed bg-slate-950 p-3.5 rounded-xl border border-slate-800 font-mono">
               {activeChallenge.instructions}
             </p>
           </div>
 
-          {/* Actions: Hint & Solution */}
+          {/* Action Buttons: Hint & Solution */}
           <div className="flex items-center gap-2 pt-2">
             <button
               onClick={() => setShowHint(!showHint)}
-              className="btn-secondary text-xs py-1.5 px-3"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 transition-all"
             >
-              <HelpCircle className="w-3.5 h-3.5" />
-              {showHint ? 'Hide Hint' : 'Show Hint'}
+              <HelpCircle className="w-3.5 h-3.5 text-indigo-400" />
+              <span>{showHint ? 'Hide Hint' : 'Show Hint'}</span>
             </button>
 
             <button
               onClick={() => setShowSolution(!showSolution)}
-              className="btn-secondary text-xs py-1.5 px-3 text-amber-300 border-amber-500/30 hover:bg-amber-500/10"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/30 transition-all"
             >
-              <Eye className="w-3.5 h-3.5" />
-              {showSolution ? 'Hide Solution' : 'Reveal Solution'}
+              <Eye className="w-3.5 h-3.5 text-amber-400" />
+              <span>{showSolution ? 'Hide Solution' : 'Reveal Solution'}</span>
             </button>
           </div>
 
           {showHint && (
-            <div className="bg-blue-950/30 border border-blue-500/30 rounded-xl p-3 text-xs text-blue-300 space-y-1">
-              <span className="font-bold flex items-center gap-1 text-blue-400">💡 Hint:</span>
-              <p>{activeChallenge.hint}</p>
+            <div className="bg-indigo-950/40 border border-indigo-500/30 rounded-xl p-4 text-xs text-indigo-200 space-y-1">
+              <strong className="font-bold flex items-center gap-1 text-indigo-300">💡 Hint:</strong>
+              <p className="leading-relaxed">{activeChallenge.hint}</p>
             </div>
           )}
 
           {showSolution && (
-            <div className="bg-amber-950/30 border border-amber-500/30 rounded-xl p-3 text-xs space-y-2 font-mono">
-              <span className="font-bold text-amber-400 block">Solution Reference:</span>
-              <pre className="text-amber-200 text-[11px] bg-black/50 p-3 rounded-lg overflow-x-auto">
+            <div className="bg-amber-950/40 border border-amber-500/30 rounded-xl p-4 text-xs space-y-2 font-mono">
+              <strong className="font-bold text-amber-400 block">Solution Reference:</strong>
+              <pre className="text-amber-200 text-[11px] bg-slate-950 p-3.5 rounded-xl border border-slate-800 overflow-x-auto leading-relaxed">
                 {activeChallenge.solution}
               </pre>
             </div>
@@ -155,17 +161,17 @@ export const Challenges: React.FC = () => {
         </div>
 
         {/* Workspace Code Editor */}
-        <div className="lg:col-span-7 glass-panel p-5 space-y-4">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <span className="text-xs font-mono font-bold text-gray-300 flex items-center gap-2">
+        <div className="lg:col-span-7 glass-card p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <span className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider">
               JSON Challenge Editor
             </span>
             <button
               onClick={handleVerify}
-              className="btn-primary text-xs py-1.5 px-4"
+              className="py-2 px-4 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
-              Verify Challenge Solution
+              <span>Verify Challenge</span>
             </button>
           </div>
 
@@ -173,7 +179,7 @@ export const Challenges: React.FC = () => {
             value={userCode}
             onChange={(e) => setUserCode(e.target.value)}
             rows={14}
-            className="w-full bg-slate-950 font-mono text-xs text-indigo-200 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-indigo-500 transition-all resize-none leading-relaxed"
+            className="w-full bg-slate-950 font-mono text-xs text-indigo-200 border border-slate-800 rounded-xl p-4 focus:outline-none focus:border-indigo-500 transition-all resize-none leading-relaxed"
           />
 
           {/* Validation Feedback */}
