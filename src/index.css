@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 :root {
-  --bg-dark: #090d16;
+  --bg-dark: #070a12;
   --bg-card: rgba(15, 23, 42, 0.75);
   --bg-card-hover: rgba(30, 41, 59, 0.85);
   --border-glass: rgba(255, 255, 255, 0.1);
@@ -32,37 +32,37 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 45%),
-    radial-gradient(at 100% 0%, rgba(217, 119, 6, 0.12) 0px, transparent 45%),
-    radial-gradient(at 50% 100%, rgba(16, 163, 127, 0.1) 0px, transparent 50%),
-    radial-gradient(at 80% 50%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.16) 0px, transparent 45%),
+    radial-gradient(at 100% 0%, rgba(217, 119, 6, 0.14) 0px, transparent 45%),
+    radial-gradient(at 50% 100%, rgba(16, 163, 127, 0.12) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
   background-attachment: fixed;
 }
 
 /* Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(9, 13, 22, 0.9);
+  background: rgba(7, 10, 18, 0.95);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 /* Glassmorphism Components */
 .glass-card {
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1rem;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.6);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -70,77 +70,77 @@ body {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .glass-card-hover:hover {
-  background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+  background: rgba(30, 41, 59, 0.85);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 24px 48px -15px rgba(0, 0, 0, 0.7);
   transform: translateY(-2px);
 }
 
 .glass-input {
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   color: #f8fafc;
-  border-radius: 0.75rem;
+  border-radius: 0.875rem;
   transition: all 0.2s ease;
 }
 .glass-input:focus {
   outline: none;
-  border-color: rgba(99, 102, 241, 0.6);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.7);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
 }
 
 /* Glowing Accent Utilities */
 .glow-openai {
-  box-shadow: 0 0 20px -5px rgba(16, 163, 127, 0.4);
+  box-shadow: 0 0 24px -4px rgba(16, 163, 127, 0.45);
 }
 .glow-anthropic {
-  box-shadow: 0 0 20px -5px rgba(217, 119, 6, 0.4);
+  box-shadow: 0 0 24px -4px rgba(217, 119, 6, 0.45);
 }
 .glow-gemini {
-  box-shadow: 0 0 20px -5px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 24px -4px rgba(59, 130, 246, 0.45);
 }
 .glow-deepseek {
-  box-shadow: 0 0 20px -5px rgba(6, 182, 212, 0.4);
+  box-shadow: 0 0 24px -4px rgba(6, 182, 212, 0.45);
 }
 .glow-ollama {
-  box-shadow: 0 0 20px -5px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 0 24px -4px rgba(168, 85, 247, 0.45);
 }
 .glow-indigo {
-  box-shadow: 0 0 20px -5px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 24px -4px rgba(99, 102, 241, 0.45);
 }
 
 /* Brand Badges */
 .badge-openai {
-  background: rgba(16, 163, 127, 0.15);
+  background: rgba(16, 163, 127, 0.18);
   color: #34d399;
-  border: 1px solid rgba(16, 163, 127, 0.35);
+  border: 1px solid rgba(16, 163, 127, 0.4);
 }
 .badge-anthropic {
-  background: rgba(217, 119, 6, 0.15);
+  background: rgba(217, 119, 6, 0.18);
   color: #fbbf24;
-  border: 1px solid rgba(217, 119, 6, 0.35);
+  border: 1px solid rgba(217, 119, 6, 0.4);
 }
 .badge-gemini {
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(59, 130, 246, 0.18);
   color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.35);
+  border: 1px solid rgba(59, 130, 246, 0.4);
 }
 .badge-deepseek {
-  background: rgba(6, 182, 212, 0.15);
+  background: rgba(6, 182, 212, 0.18);
   color: #22d3ee;
-  border: 1px solid rgba(6, 182, 212, 0.35);
+  border: 1px solid rgba(6, 182, 212, 0.4);
 }
 .badge-ollama {
-  background: rgba(168, 85, 247, 0.15);
+  background: rgba(168, 85, 247, 0.18);
   color: #c084fc;
-  border: 1px solid rgba(168, 85, 247, 0.35);
+  border: 1px solid rgba(168, 85, 247, 0.4);
 }
 
 /* Code Formatting */
 pre code {
   font-family: var(--font-mono) !important;
-  font-size: 0.85rem !important;
-  line-height: 1.6 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.65 !important;
 }
 
 /* Keyframe Animations */
@@ -151,4 +151,13 @@ pre code {
 
 .animate-pulse-glow {
   animation: pulseGlow 3s infinite ease-in-out;
+}
+
+/* Utilities to prevent squeeze glitches */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

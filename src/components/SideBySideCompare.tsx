@@ -131,32 +131,32 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       
       {/* Top Banner Studio Setup */}
-      <div className="glass-card p-6 md:p-8 space-y-6">
+      <div className="glass-card p-6 md:p-10 space-y-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-800">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                <Sparkles className="w-5 h-5" />
+            <div className="flex items-center gap-3">
+              <span className="p-2.5 rounded-2xl bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+                <Sparkles className="w-6 h-6" />
               </span>
-              <h2 className="text-xl font-bold text-slate-100 tracking-tight">
+              <h2 className="text-2xl font-bold text-slate-100 tracking-tight">
                 Side-by-Side Provider Comparison Studio
               </h2>
             </div>
-            <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+            <p className="text-sm text-slate-400 mt-2 max-w-3xl leading-relaxed">
               Simultaneously benchmark model latency, tool call selection logic, JSON argument schemas, and answer synthesis across OpenAI, Anthropic, Gemini, and DeepSeek.
             </p>
           </div>
 
           {/* Mode Selector */}
-          <div className="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800 shadow-inner self-start lg:self-auto">
+          <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-2xl border border-slate-800 shadow-inner shrink-0 self-start lg:self-auto">
             <button
               onClick={() => setExecutionMode('simulated')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 executionMode === 'simulated'
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/35'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -165,9 +165,9 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
 
             <button
               onClick={() => setExecutionMode('live')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 executionMode === 'live'
-                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
+                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/35'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -177,64 +177,66 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
         </div>
 
         {/* Configuration Matrix */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Prompt Input */}
-          <div className="lg:col-span-6 space-y-3">
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+          <div className="lg:col-span-6 space-y-4">
+            <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
               Query Prompt
             </label>
             <textarea
               value={userQuery}
               onChange={(e) => setUserQuery(e.target.value)}
-              rows={3}
+              rows={4}
               placeholder="Query requiring tool execution..."
-              className="glass-input w-full p-3.5 text-xs text-slate-100 placeholder-slate-500 resize-none font-sans leading-relaxed"
+              className="glass-input w-full p-4 text-xs sm:text-sm text-slate-100 placeholder-slate-500 resize-none font-sans leading-relaxed min-h-[120px]"
             />
 
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] text-slate-400 font-medium">Presets:</span>
-              {[
-                'What is the current weather in Tokyo in Celsius and AAPL stock price?',
-                'Get NVDA quote and search knowledge base for tool specs'
-              ].map((p, i) => (
-                <button
-                  key={i}
-                  onClick={() => setUserQuery(p)}
-                  className="text-xs px-3 py-1 rounded-lg bg-slate-900/80 border border-slate-800 text-slate-300 hover:border-indigo-500/50 hover:text-indigo-300 transition-all truncate max-w-[280px]"
-                >
-                  {p}
-                </button>
-              ))}
+            <div className="space-y-2">
+              <span className="text-xs font-semibold text-slate-400">Presets:</span>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  'What is the current weather in Tokyo in Celsius and AAPL stock price?',
+                  'Get NVDA quote and search knowledge base for tool specs'
+                ].map((p, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setUserQuery(p)}
+                    className="text-xs px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 hover:border-indigo-500/60 hover:text-indigo-200 transition-all cursor-pointer"
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Target Providers Checkboxes */}
-          <div className="lg:col-span-3 space-y-3">
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+          <div className="lg:col-span-3 space-y-4">
+            <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
               Target Providers ({selectedProviders.length})
             </label>
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               {providersList.map((p) => {
                 const isChecked = selectedProviders.includes(p.id);
                 return (
                   <div
                     key={p.id}
                     onClick={() => toggleProvider(p.id)}
-                    className={`flex items-center justify-between p-2.5 rounded-xl border text-xs cursor-pointer transition-all ${
+                    className={`flex items-center justify-between p-3 rounded-xl border text-xs cursor-pointer transition-all ${
                       isChecked
-                        ? 'bg-indigo-950/40 border-indigo-500/50 text-slate-200'
-                        : 'bg-slate-900/40 border-slate-800/80 text-slate-500 hover:border-slate-700'
+                        ? 'bg-indigo-950/40 border-indigo-500/60 text-slate-200 shadow-md'
+                        : 'bg-slate-900/50 border-slate-800 text-slate-500 hover:border-slate-700'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-3">
                       <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => {}}
                         className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-0 cursor-pointer"
                       />
-                      <span className="font-semibold text-slate-200">{p.name}</span>
+                      <span className="font-bold text-slate-200 text-sm">{p.name}</span>
                     </div>
                   </div>
                 );
@@ -243,31 +245,31 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
           </div>
 
           {/* Registered Active Tools */}
-          <div className="lg:col-span-3 space-y-3">
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+          <div className="lg:col-span-3 space-y-4">
+            <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
               Active Tools ({enabledTools.length})
             </label>
-            <div className="space-y-1.5 max-h-[120px] overflow-y-auto pr-1">
+            <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1">
               {PREBUILT_TOOLS.map((tool) => {
                 const isChecked = enabledTools.includes(tool.id);
                 return (
                   <div
                     key={tool.id}
                     onClick={() => toggleTool(tool.id)}
-                    className={`flex items-center justify-between p-2 rounded-lg border text-xs cursor-pointer transition-all ${
+                    className={`flex items-center justify-between p-2.5 rounded-xl border text-xs cursor-pointer transition-all ${
                       isChecked
-                        ? 'bg-indigo-950/40 border-indigo-500/50 text-slate-200'
-                        : 'bg-slate-900/40 border-slate-800/80 text-slate-500 hover:border-slate-700'
+                        ? 'bg-indigo-950/40 border-indigo-500/60 text-slate-200'
+                        : 'bg-slate-900/50 border-slate-800 text-slate-500 hover:border-slate-700'
                     }`}
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2.5">
                       <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => {}}
-                        className="rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-0"
+                        className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-0"
                       />
-                      <span className="font-mono text-[11px] font-semibold">{tool.name}</span>
+                      <span className="font-mono text-xs font-bold text-slate-200">{tool.name}</span>
                     </div>
                   </div>
                 );
@@ -277,7 +279,7 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
             <button
               onClick={handleRunComparison}
               disabled={isRunning || selectedProviders.length === 0}
-              className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer mt-2"
+              className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-bold text-xs shadow-xl shadow-indigo-500/25 transition-all flex items-center justify-center gap-2.5 disabled:opacity-50 cursor-pointer mt-2"
             >
               {isRunning ? (
                 <>
@@ -297,7 +299,7 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
 
       {/* Side-by-Side Provider Output Matrix */}
       {Object.keys(results).length > 0 && (
-        <div className={`grid grid-cols-1 md:grid-cols-${Math.min(selectedProviders.length, 3)} gap-6`}>
+        <div className={`grid grid-cols-1 md:grid-cols-${Math.min(selectedProviders.length, 3)} gap-8`}>
           {selectedProviders.map((providerId) => {
             const res = results[providerId];
             if (!res) return null;
@@ -306,32 +308,32 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
             return (
               <div
                 key={providerId}
-                className="glass-card p-6 flex flex-col justify-between space-y-5 border-slate-800 hover:border-slate-700 transition-all"
+                className="glass-card p-6 md:p-8 flex flex-col justify-between space-y-6 border-slate-800 hover:border-slate-700 transition-all"
               >
-                <div className="space-y-4">
+                <div className="space-y-5">
                   
                   {/* Provider Header Card */}
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3.5">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                     <div>
-                      <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold uppercase tracking-wider ${pInfo?.badgeColor || 'bg-slate-800 text-slate-200'}`}>
+                      <span className={`text-[10px] px-3 py-1 rounded-full font-mono font-bold uppercase tracking-wider ${pInfo?.badgeColor || 'bg-slate-800 text-slate-200'}`}>
                         {pInfo?.name || providerId}
                       </span>
-                      <h3 className="text-sm font-bold text-slate-100 mt-2 flex items-center gap-1.5 font-mono">
-                        <Cpu className="w-3.5 h-3.5 text-indigo-400" />
+                      <h3 className="text-base font-bold text-slate-100 mt-2 flex items-center gap-2 font-mono">
+                        <Cpu className="w-4 h-4 text-indigo-400" />
                         {res.model}
                       </h3>
                     </div>
 
                     <div className="flex flex-col items-end gap-1.5">
-                      <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1 ${
-                        res.success ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                      <span className={`text-[10px] px-3 py-1 rounded-full font-bold flex items-center gap-1.5 ${
+                        res.success ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-red-500/20 text-red-300 border border-red-500/40'
                       }`}>
-                        {res.success ? <CheckCircle className="w-3 h-3 text-emerald-400" /> : <AlertTriangle className="w-3 h-3 text-red-400" />}
+                        {res.success ? <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> : <AlertTriangle className="w-3.5 h-3.5 text-red-400" />}
                         {res.success ? 'Success' : 'Error'}
                       </span>
 
-                      <span className="text-[11px] text-slate-400 flex items-center gap-1 font-mono font-semibold">
-                        <Clock className="w-3 h-3 text-indigo-400" />
+                      <span className="text-xs text-slate-400 flex items-center gap-1 font-mono font-bold">
+                        <Clock className="w-3.5 h-3.5 text-indigo-400" />
                         {res.latencyMs} ms
                       </span>
                     </div>
@@ -339,43 +341,43 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
 
                   {/* Error State */}
                   {res.error && (
-                    <div className="p-3 bg-red-950/40 border border-red-500/30 rounded-xl text-xs text-red-300 space-y-1">
-                      <strong className="font-bold flex items-center gap-1 text-red-200">
-                        <AlertTriangle className="w-3.5 h-3.5" />
+                    <div className="p-4 bg-red-950/40 border border-red-500/30 rounded-2xl text-xs text-red-300 space-y-1">
+                      <strong className="font-bold flex items-center gap-1.5 text-red-200 text-sm">
+                        <AlertTriangle className="w-4 h-4" />
                         Provider Error
                       </strong>
-                      <p className="text-[11px] text-red-300">{res.error}</p>
+                      <p className="text-xs text-red-300 leading-relaxed">{res.error}</p>
                     </div>
                   )}
 
                   {/* Generated Tool Calls */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-xs text-slate-300 font-semibold">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-xs text-slate-300 font-bold uppercase tracking-wider">
                       <span>Tool Calls Requested</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 font-mono border border-indigo-500/30">
+                      <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 font-mono border border-indigo-500/30">
                         {res.toolCallsCount} function{res.toolCallsCount !== 1 ? 's' : ''}
                       </span>
                     </div>
 
                     {res.toolCalls.length > 0 ? (
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         {res.toolCalls.map((tc, idx) => (
                           <div
                             key={idx}
-                            className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5"
+                            className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2"
                           >
                             <div className="flex items-center justify-between text-xs">
-                              <span className="font-mono font-bold text-indigo-300">{tc.name}</span>
+                              <span className="font-mono font-bold text-sm text-indigo-300">{tc.name}</span>
                               <span className="text-[10px] text-slate-500 font-mono">ID: {tc.id.substring(0, 10)}</span>
                             </div>
-                            <pre className="text-[11px] text-emerald-300 bg-slate-900 p-2.5 rounded-lg border border-slate-800 font-mono overflow-x-auto">
+                            <pre className="text-xs text-emerald-300 bg-slate-900 p-3 rounded-xl border border-slate-800 font-mono overflow-x-auto leading-relaxed">
                               {JSON.stringify(tc.arguments, null, 2)}
                             </pre>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <div className="p-4 bg-slate-900/60 border border-slate-800 rounded-xl text-xs text-slate-400 text-center">
+                      <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-2xl text-xs text-slate-400 text-center">
                         No tools invoked by model.
                       </div>
                     )}
@@ -383,9 +385,9 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
 
                   {/* Synthesized Output */}
                   {res.finalText && (
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-semibold text-slate-300">Synthesized Answer</label>
-                      <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-200 leading-relaxed max-h-[160px] overflow-y-auto whitespace-pre-line font-sans">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">Synthesized Answer</label>
+                      <div className="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 text-xs sm:text-sm text-slate-200 leading-relaxed max-h-[180px] overflow-y-auto whitespace-pre-line font-sans">
                         {res.finalText}
                       </div>
                     </div>
@@ -393,28 +395,28 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs })
                 </div>
 
                 {/* Inspect Raw REST Payloads */}
-                <div className="border-t border-slate-800 pt-3">
+                <div className="border-t border-slate-800 pt-4">
                   <button
                     onClick={() => togglePayloadExpand(providerId)}
-                    className="w-full flex items-center justify-between text-xs text-slate-400 hover:text-slate-200 transition-all py-1 font-mono"
+                    className="w-full flex items-center justify-between text-xs text-slate-400 hover:text-slate-200 transition-all py-1.5 font-mono cursor-pointer"
                   >
-                    <span className="flex items-center gap-1.5">
-                      <Code className="w-3.5 h-3.5 text-indigo-400" />
+                    <span className="flex items-center gap-2 font-semibold">
+                      <Code className="w-4 h-4 text-indigo-400" />
                       Inspect Raw Payload Trace ({res.steps.length} steps)
                     </span>
-                    <Eye className="w-3.5 h-3.5 text-slate-400" />
+                    <Eye className="w-4 h-4 text-slate-400" />
                   </button>
 
                   {expandedPayloads[providerId] && (
-                    <div className="mt-3 space-y-3 max-h-[300px] overflow-y-auto pr-1">
+                    <div className="mt-4 space-y-3 max-h-[320px] overflow-y-auto pr-1">
                       {res.steps.map((st) => (
-                        <div key={st.stepIndex} className="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1">
-                          <div className="flex items-center justify-between text-[11px]">
+                        <div key={st.stepIndex} className="p-3.5 bg-slate-950 rounded-2xl border border-slate-800 space-y-1.5">
+                          <div className="flex items-center justify-between text-xs">
                             <span className="font-bold text-indigo-300">{st.title}</span>
                             <span className="text-[10px] text-slate-500 font-mono">{st.timestamp}</span>
                           </div>
-                          <p className="text-[10px] text-slate-400">{st.description}</p>
-                          <pre className="text-[10px] text-indigo-200 font-mono p-2.5 bg-slate-900 rounded-lg border border-slate-800 overflow-x-auto">
+                          <p className="text-xs text-slate-400">{st.description}</p>
+                          <pre className="text-xs text-indigo-200 font-mono p-3 bg-slate-900 rounded-xl border border-slate-800 overflow-x-auto leading-relaxed">
                             {JSON.stringify(st.requestPayload || st.responsePayload, null, 2)}
                           </pre>
                         </div>
