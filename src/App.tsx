@@ -9,6 +9,7 @@ import { CodeGenerator } from './components/CodeGenerator';
 import { Challenges } from './components/Challenges';
 import { CustomToolBuilder } from './components/CustomToolBuilder';
 import { LiveApiModal } from './components/LiveApiModal';
+import { WebhookTester } from './components/WebhookTester';
 import { loadProviderConfigs, saveProviderConfigs } from './utils/apiKeys';
 import { loadCustomTools, saveCustomTools } from './utils/customTools';
 import type { AllProviderConfigs } from './utils/apiKeys';
@@ -77,6 +78,7 @@ export const App: React.FC = () => {
         {activeTab === 'guide' && <ProtocolGuide />}
         {activeTab === 'codegen' && <CodeGenerator customTools={customTools} />}
         {activeTab === 'challenges' && <Challenges />}
+        {activeTab === 'webhook' && <WebhookTester customTools={customTools} />}
       </main>
 
       {/* Footer */}

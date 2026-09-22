@@ -1,7 +1,7 @@
 import React from 'react';
-import { Terminal, Cpu, ArrowRightLeft, BookOpen, Code2, Trophy, Key, Scale, Sparkles, Wrench } from 'lucide-react';
+import { Terminal, Cpu, ArrowRightLeft, BookOpen, Code2, Trophy, Key, Scale, Sparkles, Wrench, Globe } from 'lucide-react';
 
-export type TabType = 'simulator' | 'compare' | 'converter' | 'builder' | 'guide' | 'codegen' | 'challenges';
+export type TabType = 'simulator' | 'compare' | 'converter' | 'builder' | 'guide' | 'codegen' | 'challenges' | 'webhook';
 
 interface HeaderProps {
   activeTab: TabType;
@@ -20,6 +20,7 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'simulator', label: 'Simulator', icon: Cpu, badge: 'Live' },
     { id: 'compare', label: 'Compare', icon: Scale },
     { id: 'builder', label: 'Tool Builder', icon: Wrench, badge: 'OpenAPI' },
+    { id: 'webhook', label: 'Webhook Tester', icon: Globe, badge: 'REST' },
     { id: 'converter', label: 'Converter', icon: ArrowRightLeft },
     { id: 'guide', label: 'Protocol Specs', icon: BookOpen },
     { id: 'codegen', label: 'Code Gen', icon: Code2 },

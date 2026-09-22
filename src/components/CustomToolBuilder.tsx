@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { parseOpenApiSpec } from '../utils/openapiParser';
 import type { ToolDefinition } from '../utils/openapiParser';
-import { Upload, Plus, Trash2, CheckCircle2, AlertTriangle, FileCode, Wrench, RefreshCw } from 'lucide-react';
+import { Upload, Plus, Trash2, CheckCircle2, AlertTriangle, FileCode, Wrench, RefreshCw, X as XIcon, Shield } from 'lucide-react';
 
 interface CustomToolBuilderProps {
   customTools: ToolDefinition[];
@@ -43,6 +43,13 @@ export const CustomToolBuilder: React.FC<CustomToolBuilderProps> = ({
     )
   );
   const [formError, setFormError] = useState<string | null>(null);
+
+  // Per-tool custom headers (used when calling real webhook)
+  const [formHeaders, setFormHeaders] = useState<{ id: string; key: string; value: string }[]>([]);
+  const addFormHeader = () => setFormHeaders((h) => [...h, { id: `fh_${Date.now()}`, key: '', value: '' }]);
+  const removeFormHeader = (id: string) => setFormHeaders((h) => h.filter((hdr) => hdr.id !== id));
+  const updateFormHeader = (id: string, field: 'key' | 'value', val: string) =>
+    setFormHeaders((h) => h.map((hdr) => (hdr.id === id ? { ...hdr, [field]: val } : hdr)));
 
   const sampleSpecs = [
     {
@@ -162,6 +169,12 @@ export const CustomToolBuilder: React.FC<CustomToolBuilderProps> = ({
         return;
       }
 
+      // Build headers map from form
+      const headersMap: Record<string, string> = {};
+      formHeaders.forEach((h) => {
+        if (h.key.trim()) headersMap[h.key.trim()] = h.value;
+      });
+
       const newTool: ToolDefinition = {
         id: `custom_${cleanName}_${Date.now()}`,
         name: cleanName,
@@ -171,6 +184,7 @@ export const CustomToolBuilder: React.FC<CustomToolBuilderProps> = ({
         source: 'manual',
         webhookUrl: formWebhook.trim(),
         httpMethod: formMethod,
+        headers: Object.keys(headersMap).length > 0 ? headersMap : undefined,
         parameters: parsedParams,
         openaiSchema: {
           type: 'function',
@@ -197,6 +211,7 @@ export const CustomToolBuilder: React.FC<CustomToolBuilderProps> = ({
       setFormName('');
       setFormDesc('');
       setFormWebhook('');
+      setFormHeaders([]);
     } catch (err: any) {
       setFormError(`JSON Schema Syntax Error: ${err.message}`);
     }
@@ -497,6 +512,57 @@ export const CustomToolBuilder: React.FC<CustomToolBuilderProps> = ({
                   className="w-full bg-slate-950 font-mono text-xs text-indigo-200 border border-slate-800 rounded-2xl p-4 focus:outline-none focus:border-indigo-500 transition-all resize-none leading-relaxed min-h-[220px]"
                 />
               </div>
+            </div>
+
+            {/* Custom Auth Headers */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                  <Shield className="w-3.5 h-3.5 text-cyan-400" />
+                  Auth Headers for Real Webhook Calls (optional)
+                </label>
+                <button
+                  onClick={addFormHeader}
+                  className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 hover:text-slate-100 transition-all cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Add Header
+                </button>
+              </div>
+
+              {formHeaders.length === 0 ? (
+                <div className="flex items-center gap-2 text-xs text-slate-500 font-mono px-1">
+                  <Shield className="w-3.5 h-3.5 shrink-0" />
+                  <span>No custom headers. Click "Add Header" to configure Authorization or X-Api-Key for real webhook calls.</span>
+                </div>
+              ) : (
+                <div className="space-y-2 rounded-2xl border border-slate-800 bg-slate-950/50 p-3">
+                  {formHeaders.map((hdr) => (
+                    <div key={hdr.id} className="grid grid-cols-[1fr_1fr_28px] gap-2 items-center">
+                      <input
+                        type="text"
+                        value={hdr.key}
+                        onChange={(e) => updateFormHeader(hdr.id, 'key', e.target.value)}
+                        placeholder="Header-Name (e.g. Authorization)"
+                        className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500/60 transition-all"
+                      />
+                      <input
+                        type="password"
+                        value={hdr.value}
+                        onChange={(e) => updateFormHeader(hdr.id, 'value', e.target.value)}
+                        placeholder="Bearer token or API key..."
+                        className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500/60 transition-all"
+                      />
+                      <button
+                        onClick={() => removeFormHeader(hdr.id)}
+                        className="text-slate-700 hover:text-red-400 transition-colors cursor-pointer flex items-center justify-center"
+                      >
+                        <XIcon className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {formError && (

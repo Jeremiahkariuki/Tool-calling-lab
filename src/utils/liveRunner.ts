@@ -1,5 +1,6 @@
 import type { ToolDefinition } from './openapiParser';
 import type { ProviderSetting } from './apiKeys';
+import { executeToolWebhook } from './webhookTester';
 
 export interface LiveToolCall {
   id: string;
@@ -172,13 +173,30 @@ async function executeOpenAICompatible(
     });
 
     const matchedTool = selectedTools.find(t => t.name === tc.function.name);
-    const resultObj = matchedTool ? matchedTool.mockHandler(parsedArgs) : { status: 'Executed successfully' };
+    let resultObj: any;
+    let execMode = 'mock';
+
+    if (matchedTool?.webhookUrl) {
+      try {
+        const webhookRes = await executeToolWebhook(matchedTool, parsedArgs);
+        let parsedBody: any;
+        try { parsedBody = JSON.parse(webhookRes.responseBody); } catch { parsedBody = webhookRes.responseBody; }
+        resultObj = { status: webhookRes.statusCode, statusText: webhookRes.statusText, body: parsedBody, latencyMs: webhookRes.latencyMs };
+        execMode = 'webhook';
+      } catch {
+        resultObj = matchedTool.mockHandler(parsedArgs);
+      }
+    } else {
+      resultObj = matchedTool ? matchedTool.mockHandler(parsedArgs) : { status: 'Executed successfully' };
+    }
 
     steps.push({
       stepIndex: steps.length + 1,
-      title: `2. Executed Local Tool: ${tc.function.name}`,
+      title: `2. ${execMode === 'webhook' ? '🌐 Real Webhook' : 'Local Mock'}: ${tc.function.name}`,
       stage: 'tool_execution',
-      description: `Executed function handler locally with extracted parameters.`,
+      description: execMode === 'webhook'
+        ? `Executed live HTTP request to ${matchedTool?.webhookUrl} with LLM-extracted arguments.`
+        : `Executed function handler locally with extracted parameters.`,
       requestPayload: { function: tc.function.name, arguments: parsedArgs },
       responsePayload: resultObj,
       timestamp: nowTime()
@@ -335,13 +353,30 @@ async function executeAnthropic(
     });
 
     const matchedTool = selectedTools.find(t => t.name === tu.name);
-    const resultObj = matchedTool ? matchedTool.mockHandler(tu.input) : { status: 'Executed successfully' };
+    let resultObj: any;
+    let execMode = 'mock';
+
+    if (matchedTool?.webhookUrl) {
+      try {
+        const webhookRes = await executeToolWebhook(matchedTool, tu.input);
+        let parsedBody: any;
+        try { parsedBody = JSON.parse(webhookRes.responseBody); } catch { parsedBody = webhookRes.responseBody; }
+        resultObj = { status: webhookRes.statusCode, statusText: webhookRes.statusText, body: parsedBody, latencyMs: webhookRes.latencyMs };
+        execMode = 'webhook';
+      } catch {
+        resultObj = matchedTool.mockHandler(tu.input);
+      }
+    } else {
+      resultObj = matchedTool ? matchedTool.mockHandler(tu.input) : { status: 'Executed successfully' };
+    }
 
     steps.push({
       stepIndex: steps.length + 1,
-      title: `2. Executed Tool: ${tu.name}`,
+      title: `2. ${execMode === 'webhook' ? '🌐 Real Webhook' : 'Local Mock'}: ${tu.name}`,
       stage: 'tool_execution',
-      description: `Executed tool locally for input_schema object.`,
+      description: execMode === 'webhook'
+        ? `Executed live HTTP request to ${matchedTool?.webhookUrl} with LLM-extracted arguments.`
+        : `Executed tool locally for input_schema object.`,
       requestPayload: { tool: tu.name, input: tu.input },
       responsePayload: resultObj,
       timestamp: nowTime()
@@ -506,13 +541,30 @@ async function executeGemini(
     });
 
     const matchedTool = selectedTools.find(t => t.name === fc.name);
-    const resultObj = matchedTool ? matchedTool.mockHandler(fc.args) : { status: 'Executed successfully' };
+    let resultObj: any;
+    let execMode = 'mock';
+
+    if (matchedTool?.webhookUrl) {
+      try {
+        const webhookRes = await executeToolWebhook(matchedTool, fc.args);
+        let parsedBody: any;
+        try { parsedBody = JSON.parse(webhookRes.responseBody); } catch { parsedBody = webhookRes.responseBody; }
+        resultObj = { status: webhookRes.statusCode, statusText: webhookRes.statusText, body: parsedBody, latencyMs: webhookRes.latencyMs };
+        execMode = 'webhook';
+      } catch {
+        resultObj = matchedTool.mockHandler(fc.args);
+      }
+    } else {
+      resultObj = matchedTool ? matchedTool.mockHandler(fc.args) : { status: 'Executed successfully' };
+    }
 
     steps.push({
       stepIndex: steps.length + 1,
-      title: `2. Executed Function: ${fc.name}`,
+      title: `2. ${execMode === 'webhook' ? '🌐 Real Webhook' : 'Local Mock'}: ${fc.name}`,
       stage: 'tool_execution',
-      description: `Executed function locally with Gemini arguments object.`,
+      description: execMode === 'webhook'
+        ? `Executed live HTTP request to ${matchedTool?.webhookUrl} with Gemini-extracted arguments.`
+        : `Executed function locally with Gemini arguments object.`,
       requestPayload: { function: fc.name, args: fc.args },
       responsePayload: resultObj,
       timestamp: nowTime()
