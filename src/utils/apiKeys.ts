@@ -144,7 +144,7 @@ export async function testProviderConnection(
       if (res.ok) {
         const data = await res.json();
         const count = data.models?.length || 0;
-        return { success: true, message: `Connected to Ollama (${count} models found)` };
+        return { success: true, message: `Connected to JkAi (${count} models found)` };
       }
       return { success: false, message: `HTTP ${res.status}: ${res.statusText}` };
     }

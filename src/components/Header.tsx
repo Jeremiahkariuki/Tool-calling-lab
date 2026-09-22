@@ -52,7 +52,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
               </div>
               <p className="text-xs font-medium text-slate-400 hidden xl:block mt-0.5">
-                OpenAI • Anthropic • Gemini • DeepSeek • Ollama
+                OpenAI • Anthropic • Gemini • DeepSeek • JkAi
               </p>
             </div>
           </div>

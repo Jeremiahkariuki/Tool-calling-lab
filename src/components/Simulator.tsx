@@ -99,7 +99,7 @@ export const Simulator: React.FC<SimulatorProps> = ({ configs, customTools = [] 
     { id: 'anthropic', name: 'Anthropic', badge: 'badge-anthropic', specLabel: 'Tools API Spec', activeBg: 'bg-amber-500/20 border-amber-500/60 text-amber-300' },
     { id: 'gemini', name: 'Google Gemini', badge: 'badge-gemini', specLabel: 'Function Call API', activeBg: 'bg-blue-500/20 border-blue-500/60 text-blue-300' },
     { id: 'deepseek', name: 'DeepSeek', badge: 'badge-deepseek', specLabel: 'OpenAI Schema', activeBg: 'bg-cyan-500/20 border-cyan-500/60 text-cyan-300' },
-    { id: 'ollama', name: 'Ollama (Local)', badge: 'badge-ollama', specLabel: 'Native Tools', activeBg: 'bg-purple-500/20 border-purple-500/60 text-purple-300' }
+    { id: 'ollama', name: 'JkAi (Local)', badge: 'badge-ollama', specLabel: 'Native Tools', activeBg: 'bg-purple-500/20 border-purple-500/60 text-purple-300' }
   ];
 
   return (

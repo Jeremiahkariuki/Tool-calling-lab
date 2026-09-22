@@ -108,7 +108,7 @@ export const LiveApiModal: React.FC<LiveApiModalProps> = ({
             }`}
           >
             <Server className="w-4 h-4" />
-            <span>Local Models (Ollama / VLLM / LM Studio)</span>
+            <span>Local Models (JkAi / VLLM / LM Studio)</span>
           </button>
         </div>
 
@@ -343,7 +343,7 @@ export const LiveApiModal: React.FC<LiveApiModalProps> = ({
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-purple-400" />
-                    <span className="text-sm font-bold text-slate-100">Ollama Local Server</span>
+                    <span className="text-sm font-bold text-slate-100">JkAi Local Server</span>
                   </div>
 
                   <button

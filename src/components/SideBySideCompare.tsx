@@ -131,7 +131,7 @@ export const SideBySideCompare: React.FC<SideBySideCompareProps> = ({ configs, c
     { id: 'anthropic', name: 'Anthropic', badgeColor: 'badge-anthropic' },
     { id: 'gemini', name: 'Google Gemini', badgeColor: 'badge-gemini' },
     { id: 'deepseek', name: 'DeepSeek', badgeColor: 'badge-deepseek' },
-    { id: 'ollama', name: 'Ollama (Local)', badgeColor: 'badge-ollama' }
+    { id: 'ollama', name: 'JkAi (Local)', badgeColor: 'badge-ollama' }
   ];
 
   return (
