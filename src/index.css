@@ -145,100 +145,179 @@ pre, code {
 }
 
 /* ==========================================================================
-   HIGH-CONTRAST LIGHT MODE (Black & White Theme)
+   HIGH-CONTRAST LIGHT MODE (Black & White / Light Theme Overrides)
    ========================================================================== */
 
 body.light-mode {
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
   background-image: 
-    radial-gradient(ellipse at 15% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 10%, rgba(217, 119, 6, 0.06) 0%, transparent 45%),
-    radial-gradient(ellipse at 50% 100%, rgba(16, 163, 127, 0.06) 0%, transparent 60%);
+    radial-gradient(ellipse at 15% 0%, rgba(99, 102, 241, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 10%, rgba(217, 119, 6, 0.05) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 100%, rgba(16, 163, 127, 0.05) 0%, transparent 60%) !important;
 }
 
+/* Header & Nav */
 body.light-mode header {
-  background-color: rgba(255, 255, 255, 0.9);
-  border-bottom-color: #e2e8f0;
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom-color: #cbd5e1 !important;
 }
-
 body.light-mode header h1 {
   color: #0f172a !important;
 }
-
 body.light-mode header nav {
-  background-color: #f1f5f9;
-  border-color: #cbd5e1;
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
 }
-
-body.light-mode .glass-card {
-  background: rgba(255, 255, 255, 0.92);
-  border-color: #cbd5e1;
-  box-shadow: 0 10px 35px -10px rgba(0, 0, 0, 0.08);
+body.light-mode header nav button {
+  color: #334155 !important;
 }
-
-body.light-mode .glass-card-interactive {
-  background: #ffffff;
-  border-color: #e2e8f0;
-}
-
-body.light-mode .glass-input {
-  background: #ffffff;
-  border-color: #cbd5e1;
-  color: #0f172a;
-}
-
-body.light-mode .glass-input::placeholder {
-  color: #94a3b8;
-}
-
-body.light-mode h1,
-body.light-mode h2,
-body.light-mode h3,
-body.light-mode h4,
-body.light-mode label {
+body.light-mode header nav button:hover {
+  background-color: #e2e8f0 !important;
   color: #0f172a !important;
 }
 
-body.light-mode p,
-body.light-mode span.text-slate-400,
-body.light-mode div.text-slate-400 {
-  color: #475569;
+/* Glass Cards & Containers */
+body.light-mode .glass-card {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08) !important;
 }
 
+body.light-mode .glass-card-interactive {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-mode .glass-input {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+body.light-mode .glass-input::placeholder {
+  color: #64748b !important;
+}
+
+/* Text Overrides */
+body.light-mode .text-white,
+body.light-mode .text-slate-100,
+body.light-mode .text-slate-200 {
+  color: #0f172a !important;
+}
+
+body.light-mode .text-slate-300 {
+  color: #1e293b !important;
+}
+
+body.light-mode .text-slate-400 {
+  color: #475569 !important;
+}
+
+body.light-mode .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Background Overrides for Cards and Containers */
 body.light-mode .bg-slate-950,
-body.light-mode .bg-slate-900 {
-  background-color: #f1f5f9 !important;
+body.light-mode .bg-slate-900,
+body.light-mode .bg-slate-900\/80,
+body.light-mode .bg-slate-900\/90,
+body.light-mode .bg-slate-900\/70,
+body.light-mode .bg-slate-900\/60,
+body.light-mode .bg-slate-900\/50 {
+  background-color: #ffffff !important;
   border-color: #cbd5e1 !important;
   color: #0f172a !important;
 }
 
-body.light-mode pre {
+body.light-mode .bg-indigo-950\/40,
+body.light-mode .bg-indigo-950\/50 {
+  background-color: #e0e7ff !important;
+  border-color: #6366f1 !important;
+  color: #1e1b4b !important;
+}
+
+/* Unselected Provider / Tool / Step Cards in Light Mode */
+body.light-mode button.bg-slate-900\/80,
+body.light-mode button.bg-slate-900\/70,
+body.light-mode button.bg-slate-900 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #1e293b !important;
+}
+
+body.light-mode button.bg-slate-900\/80:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+}
+
+/* Quick Presets Buttons */
+body.light-mode button.bg-slate-900\/90 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #1e293b !important;
+}
+body.light-mode button.bg-slate-900\/90:hover {
+  background-color: #e2e8f0 !important;
   color: #0f172a !important;
 }
 
+/* Checkbox Tool List Items */
+body.light-mode div.bg-slate-900\/60,
+body.light-mode div.bg-slate-900\/50 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+
+/* Execution Trace Step Cards */
+body.light-mode div.bg-slate-900\/80 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Raw Code Blocks & Payload Inspectors */
+body.light-mode pre {
+  color: #1e1b4b !important;
+  font-weight: 500;
+}
+body.light-mode div.bg-slate-950 {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Borders */
+body.light-mode .border-slate-800,
+body.light-mode .border-slate-800\/80,
+body.light-mode .border-slate-800\/90,
+body.light-mode .border-slate-800\/60,
+body.light-mode .border-slate-700 {
+  border-color: #cbd5e1 !important;
+}
+
+/* Badges High-Contrast Light Colors */
 body.light-mode .badge-openai {
-  background: #dcfce7;
-  color: #065f46;
-  border-color: #a7f3d0;
+  background: #dcfce7 !important;
+  color: #14532d !important;
+  border-color: #86efac !important;
 }
 body.light-mode .badge-anthropic {
-  background: #fef3c7;
-  color: #92400e;
-  border-color: #fde68a;
+  background: #fef3c7 !important;
+  color: #78350f !important;
+  border-color: #fde047 !important;
 }
 body.light-mode .badge-gemini {
-  background: #dbeafe;
-  color: #1e40af;
-  border-color: #bfdbfe;
+  background: #dbeafe !important;
+  color: #1e3a8a !important;
+  border-color: #93c5fd !important;
 }
 body.light-mode .badge-deepseek {
-  background: #cffaff;
-  color: #155e75;
-  border-color: #a5f3fc;
+  background: #cffaff !important;
+  color: #164e63 !important;
+  border-color: #67e8f9 !important;
 }
 body.light-mode .badge-ollama {
-  background: #f3e8ff;
-  color: #6b21a8;
-  border-color: #e9d5ff;
+  background: #f3e8ff !important;
+  color: #581c87 !important;
+  border-color: #d8b4fe !important;
 }
