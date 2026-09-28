@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import type { TabType } from './components/Header';
 import { Simulator } from './components/Simulator';
@@ -20,6 +20,23 @@ export const App: React.FC = () => {
   const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
   const [providerConfigs, setProviderConfigs] = useState<AllProviderConfigs>(loadProviderConfigs);
   const [customTools, setCustomTools] = useState<ToolDefinition[]>(loadCustomTools);
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    return (localStorage.getItem('tool_calling_lab_theme') as 'dark' | 'light') || 'dark';
+  });
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.body.classList.add('light-mode');
+    } else {
+      document.body.classList.remove('light-mode');
+    }
+  }, [theme]);
+
+  const handleToggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    localStorage.setItem('tool_calling_lab_theme', nextTheme);
+  };
 
   const handleSaveConfigs = (newConfigs: AllProviderConfigs) => {
     setProviderConfigs(newConfigs);
@@ -53,13 +70,15 @@ export const App: React.FC = () => {
   ].filter(Boolean).length;
 
   return (
-    <div className="min-h-screen pb-16">
+    <div className="min-h-screen pb-16 transition-colors duration-300">
       {/* Header Bar */}
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onOpenKeyModal={() => setIsKeyModalOpen(true)}
         configuredProvidersCount={configuredCount}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
       />
 
       {/* Main Container */}

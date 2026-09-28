@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { 
   Terminal, Cpu, ArrowRightLeft, BookOpen, Code2, 
-  Trophy, Key, Scale, Sparkles, Wrench, Globe, ChevronDown, Layers
+  Trophy, Key, Scale, Sparkles, Wrench, Globe, ChevronDown, Layers,
+  Sun, Moon
 } from 'lucide-react';
 
 export type TabType = 'simulator' | 'compare' | 'builder' | 'webhook' | 'converter' | 'guide' | 'codegen' | 'challenges';
@@ -11,13 +12,17 @@ interface HeaderProps {
   setActiveTab: (tab: TabType) => void;
   onOpenKeyModal: () => void;
   configuredProvidersCount: number;
+  theme: 'dark' | 'light';
+  onToggleTheme: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   setActiveTab,
   onOpenKeyModal,
-  configuredProvidersCount
+  configuredProvidersCount,
+  theme,
+  onToggleTheme
 }) => {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
 
@@ -38,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({
   const isMoreActive = toolsTabs.some(t => t.id === activeTab);
 
   return (
-    <header className="sticky top-0 z-50 mb-8 bg-slate-950/80 backdrop-blur-2xl border-b border-slate-800/80 shadow-2xl">
+    <header className="sticky top-0 z-50 mb-8 bg-slate-950/80 backdrop-blur-2xl border-b border-slate-800/80 shadow-2xl transition-colors duration-300">
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-4">
           
@@ -55,7 +60,7 @@ export const Header: React.FC<HeaderProps> = ({
               <div className="flex items-center gap-2.5">
                 <h1 
                   onClick={() => setActiveTab('simulator')}
-                  className="text-lg sm:text-xl font-extrabold text-white tracking-tight cursor-pointer hover:text-indigo-300 transition-colors"
+                  className="text-lg sm:text-xl font-extrabold tracking-tight cursor-pointer hover:text-indigo-400 transition-colors"
                 >
                   Tool Calling Lab
                 </h1>
@@ -149,8 +154,28 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </nav>
 
-          {/* API Keys Settings Button */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Action Buttons: Theme Toggle & API Keys */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={onToggleTheme}
+              title={theme === 'dark' ? 'Switch to Light (B&W) Theme' : 'Switch to Dark Theme'}
+              className="flex items-center gap-2 px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all border shadow-sm cursor-pointer bg-slate-900/80 text-slate-200 border-slate-700/80 hover:bg-slate-800 hover:text-white"
+            >
+              {theme === 'dark' ? (
+                <>
+                  <Sun className="w-4 h-4 text-amber-400" />
+                  <span className="hidden sm:inline">Light Mode</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-4 h-4 text-indigo-500" />
+                  <span className="hidden sm:inline">Dark Mode</span>
+                </>
+              )}
+            </button>
+
+            {/* API Keys Settings Button */}
             <button
               onClick={onOpenKeyModal}
               className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all border shadow-lg cursor-pointer ${

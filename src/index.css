@@ -25,6 +25,7 @@
     background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
@@ -141,4 +142,103 @@
 /* Code block typography */
 pre, code {
   font-family: 'Fira Code', monospace !important;
+}
+
+/* ==========================================================================
+   HIGH-CONTRAST LIGHT MODE (Black & White Theme)
+   ========================================================================== */
+
+body.light-mode {
+  background-color: #f8fafc;
+  color: #0f172a;
+  background-image: 
+    radial-gradient(ellipse at 15% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 10%, rgba(217, 119, 6, 0.06) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 100%, rgba(16, 163, 127, 0.06) 0%, transparent 60%);
+}
+
+body.light-mode header {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-bottom-color: #e2e8f0;
+}
+
+body.light-mode header h1 {
+  color: #0f172a !important;
+}
+
+body.light-mode header nav {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+body.light-mode .glass-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 35px -10px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .glass-card-interactive {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+body.light-mode .glass-input {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+body.light-mode .glass-input::placeholder {
+  color: #94a3b8;
+}
+
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4,
+body.light-mode label {
+  color: #0f172a !important;
+}
+
+body.light-mode p,
+body.light-mode span.text-slate-400,
+body.light-mode div.text-slate-400 {
+  color: #475569;
+}
+
+body.light-mode .bg-slate-950,
+body.light-mode .bg-slate-900 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+body.light-mode pre {
+  color: #0f172a !important;
+}
+
+body.light-mode .badge-openai {
+  background: #dcfce7;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+body.light-mode .badge-anthropic {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+body.light-mode .badge-gemini {
+  background: #dbeafe;
+  color: #1e40af;
+  border-color: #bfdbfe;
+}
+body.light-mode .badge-deepseek {
+  background: #cffaff;
+  color: #155e75;
+  border-color: #a5f3fc;
+}
+body.light-mode .badge-ollama {
+  background: #f3e8ff;
+  color: #6b21a8;
+  border-color: #e9d5ff;
 }
