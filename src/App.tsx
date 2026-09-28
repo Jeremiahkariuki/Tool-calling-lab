@@ -63,7 +63,7 @@ export const App: React.FC = () => {
       />
 
       {/* Main Container */}
-      <main className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
         {activeTab === 'simulator' && <Simulator configs={providerConfigs} customTools={customTools} />}
         {activeTab === 'compare' && <SideBySideCompare configs={providerConfigs} customTools={customTools} />}
         {activeTab === 'builder' && (
@@ -82,7 +82,7 @@ export const App: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mt-20 pt-8 border-t border-slate-800 text-center text-xs text-slate-500 font-medium">
+      <footer className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mt-20 pt-8 border-t border-slate-800 text-center text-xs text-slate-500 font-medium">
         <p>Multi-Provider AI Tool Calling Interactive Learning Lab • OpenAPI 3.0 & Custom Tool Builder Studio</p>
       </footer>
 
