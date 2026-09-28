@@ -149,10 +149,10 @@ pre, code {
    ========================================================================== */
 
 body.light-mode {
-  background-color: #f8fafc !important;
+  background-color: #f4f6f9 !important;
   color: #0f172a !important;
   background-image: 
-    radial-gradient(ellipse at 15% 0%, rgba(99, 102, 241, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 15% 0%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
     radial-gradient(ellipse at 85% 10%, rgba(217, 119, 6, 0.05) 0%, transparent 45%),
     radial-gradient(ellipse at 50% 100%, rgba(16, 163, 127, 0.05) 0%, transparent 60%) !important;
 }
@@ -166,18 +166,18 @@ body.light-mode header h1 {
   color: #0f172a !important;
 }
 body.light-mode header nav {
-  background-color: #f1f5f9 !important;
+  background-color: #e2e8f0 !important;
   border-color: #cbd5e1 !important;
 }
 body.light-mode header nav button {
   color: #334155 !important;
 }
 body.light-mode header nav button:hover {
-  background-color: #e2e8f0 !important;
+  background-color: #cbd5e1 !important;
   color: #0f172a !important;
 }
 
-/* Glass Cards & Containers */
+/* Glass Cards & Main Containers */
 body.light-mode .glass-card {
   background: #ffffff !important;
   border-color: #cbd5e1 !important;
@@ -198,7 +198,7 @@ body.light-mode .glass-input::placeholder {
   color: #64748b !important;
 }
 
-/* Text Overrides */
+/* Text Colors */
 body.light-mode .text-white,
 body.light-mode .text-slate-100,
 body.light-mode .text-slate-200 {
@@ -210,80 +210,103 @@ body.light-mode .text-slate-300 {
 }
 
 body.light-mode .text-slate-400 {
-  color: #475569 !important;
+  color: #334155 !important;
 }
 
 body.light-mode .text-slate-500 {
-  color: #64748b !important;
+  color: #475569 !important;
 }
 
-/* Background Overrides for Cards and Containers */
-body.light-mode .bg-slate-950,
-body.light-mode .bg-slate-900,
-body.light-mode .bg-slate-900\/80,
-body.light-mode .bg-slate-900\/90,
-body.light-mode .bg-slate-900\/70,
-body.light-mode .bg-slate-900\/60,
-body.light-mode .bg-slate-900\/50 {
-  background-color: #ffffff !important;
+/* Background Overrides for Sub-containers across Webhook Tester, Tool Builder, Compare */
+body.light-mode div[class*="bg-slate-950"],
+body.light-mode div[class*="bg-slate-900"],
+body.light-mode div[class*="bg-slate-800"] {
+  background-color: #f8fafc !important;
   border-color: #cbd5e1 !important;
   color: #0f172a !important;
 }
 
-body.light-mode .bg-indigo-950\/40,
-body.light-mode .bg-indigo-950\/50 {
+body.light-mode div.bg-indigo-950\/40,
+body.light-mode div.bg-indigo-950\/50,
+body.light-mode div.bg-indigo-950\/90 {
   background-color: #e0e7ff !important;
   border-color: #6366f1 !important;
   color: #1e1b4b !important;
 }
 
-/* Unselected Provider / Tool / Step Cards in Light Mode */
-body.light-mode button.bg-slate-900\/80,
-body.light-mode button.bg-slate-900\/70,
-body.light-mode button.bg-slate-900 {
-  background-color: #ffffff !important;
-  border-color: #cbd5e1 !important;
-  color: #1e293b !important;
-}
-
-body.light-mode button.bg-slate-900\/80:hover {
+/* OpenAPI Drag and Drop Upload Zone */
+body.light-mode div.border-dashed,
+body.light-mode label.border-dashed {
   background-color: #f1f5f9 !important;
   border-color: #94a3b8 !important;
+  color: #0f172a !important;
 }
 
-/* Quick Presets Buttons */
-body.light-mode button.bg-slate-900\/90 {
+/* Inputs, Textareas, Selects in Light Mode */
+body.light-mode input,
+body.light-mode textarea,
+body.light-mode select {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+body.light-mode input::placeholder,
+body.light-mode textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* Buttons in Light Mode */
+body.light-mode button[class*="bg-slate-900"],
+body.light-mode button[class*="bg-slate-800"] {
   background-color: #f1f5f9 !important;
   border-color: #cbd5e1 !important;
-  color: #1e293b !important;
+  color: #0f172a !important;
 }
-body.light-mode button.bg-slate-900\/90:hover {
+
+body.light-mode button[class*="bg-slate-900"]:hover,
+body.light-mode button[class*="bg-slate-800"]:hover {
   background-color: #e2e8f0 !important;
   color: #0f172a !important;
 }
 
-/* Checkbox Tool List Items */
-body.light-mode div.bg-slate-900\/60,
-body.light-mode div.bg-slate-900\/50 {
-  background-color: #ffffff !important;
-  border-color: #e2e8f0 !important;
+/* Quick Presets & Sample Spec Pill Buttons */
+body.light-mode button.bg-slate-900\/90,
+body.light-mode button.bg-slate-900\/80,
+body.light-mode button.bg-slate-900 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
   color: #1e293b !important;
 }
 
-/* Execution Trace Step Cards */
-body.light-mode div.bg-slate-900\/80 {
+/* Code & Pre Blocks in Light Mode */
+body.light-mode pre {
   background-color: #ffffff !important;
   border-color: #cbd5e1 !important;
-}
-
-/* Raw Code Blocks & Payload Inspectors */
-body.light-mode pre {
-  color: #1e1b4b !important;
+  color: #0f172a !important;
   font-weight: 500;
 }
-body.light-mode div.bg-slate-950 {
+
+body.light-mode pre span,
+body.light-mode code {
+  color: #1e1b4b !important;
+}
+
+/* Synthesized Answer Box in Compare Studio & Simulator */
+body.light-mode div[class*="bg-slate-950\/90"],
+body.light-mode div[class*="bg-slate-950"] {
   background-color: #f8fafc !important;
   border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* Table Headers & Rows in Webhook Tester */
+body.light-mode table,
+body.light-mode tr,
+body.light-mode td,
+body.light-mode th {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
 }
 
 /* Borders */
@@ -295,7 +318,7 @@ body.light-mode .border-slate-700 {
   border-color: #cbd5e1 !important;
 }
 
-/* Badges High-Contrast Light Colors */
+/* Brand Badges High-Contrast Light Colors */
 body.light-mode .badge-openai {
   background: #dcfce7 !important;
   color: #14532d !important;
