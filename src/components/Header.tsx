@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { 
   Terminal, Cpu, ArrowRightLeft, BookOpen, Code2, 
   Trophy, Key, Scale, Sparkles, Wrench, Globe, ChevronDown, Layers,
-  Sun, Moon
+  Sun, Moon, GitFork
 } from 'lucide-react';
 
-export type TabType = 'simulator' | 'compare' | 'builder' | 'webhook' | 'converter' | 'guide' | 'codegen' | 'challenges';
+export type TabType = 'simulator' | 'compare' | 'builder' | 'webhook' | 'workflow' | 'converter' | 'guide' | 'codegen' | 'challenges';
 
 interface HeaderProps {
   activeTab: TabType;
@@ -29,6 +29,7 @@ export const Header: React.FC<HeaderProps> = ({
   const mainTabs = [
     { id: 'simulator', label: 'Simulator', icon: Cpu, badge: 'LIVE', color: 'indigo' },
     { id: 'compare', label: 'Compare', icon: Scale, color: 'blue' },
+    { id: 'workflow', label: 'Workflows', icon: GitFork, badge: 'DAG', color: 'purple' },
     { id: 'builder', label: 'Tool Builder', icon: Wrench, badge: 'OPENAPI', color: 'emerald' },
     { id: 'webhook', label: 'Webhook Tester', icon: Globe, badge: 'REST', color: 'cyan' },
   ];
@@ -66,11 +67,11 @@ export const Header: React.FC<HeaderProps> = ({
                 </h1>
                 <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
                   <Sparkles className="w-3 h-3 text-indigo-400" />
-                  Studio v2.5
+                  Studio v3.0
                 </span>
               </div>
               <p className="text-xs font-medium text-slate-400 hidden xl:block mt-0.5">
-                Multi-Provider AI Function Calling & OpenAPI Studio
+                Multi-Provider AI Tool Calling & Agentic DAG Studio
               </p>
             </div>
           </div>
@@ -84,9 +85,9 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as TabType)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer ${
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer ${
                     isActive
-                      ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-600/30 border border-indigo-400/40'
+                      ? 'bg-gradient-to-r from-purple-600 via-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-600/30 border border-indigo-400/40'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
                   }`}
                 >
@@ -109,7 +110,7 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="relative">
               <button
                 onClick={() => setIsMoreOpen(!isMoreOpen)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer ${
                   isMoreActive
                     ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-600/30 border border-purple-400/40'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'

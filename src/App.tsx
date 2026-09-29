@@ -10,6 +10,7 @@ import { Challenges } from './components/Challenges';
 import { CustomToolBuilder } from './components/CustomToolBuilder';
 import { LiveApiModal } from './components/LiveApiModal';
 import { WebhookTester } from './components/WebhookTester';
+import { AgentWorkflowStudio } from './components/AgentWorkflowStudio';
 import { loadProviderConfigs, saveProviderConfigs } from './utils/apiKeys';
 import { loadCustomTools, saveCustomTools } from './utils/customTools';
 import type { AllProviderConfigs } from './utils/apiKeys';
@@ -85,6 +86,7 @@ export const App: React.FC = () => {
       <main className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
         {activeTab === 'simulator' && <Simulator configs={providerConfigs} customTools={customTools} />}
         {activeTab === 'compare' && <SideBySideCompare configs={providerConfigs} customTools={customTools} />}
+        {activeTab === 'workflow' && <AgentWorkflowStudio configs={providerConfigs} customTools={customTools} />}
         {activeTab === 'builder' && (
           <CustomToolBuilder
             customTools={customTools}
@@ -102,7 +104,7 @@ export const App: React.FC = () => {
 
       {/* Footer */}
       <footer className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mt-20 pt-8 border-t border-slate-800 text-center text-xs text-slate-500 font-medium">
-        <p>Multi-Provider AI Tool Calling Interactive Learning Lab • OpenAPI 3.0 & Custom Tool Builder Studio</p>
+        <p>Multi-Provider AI Tool Calling Interactive Learning Lab • Agentic Workflow & OpenAPI 3.0 Studio</p>
       </footer>
 
       {/* Multi-Provider API Key Settings Modal */}
